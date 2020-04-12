@@ -12,10 +12,11 @@
   "dependencies": {
     "core-js": "^3.6.4",
     "keen-ui": "^1.2.1",
+    "lovefield": "^2.1.12",
     "ol": "^6.2.1",
     "uuid": "^7.0.1",
     "vue": "^2.6.11",
-    "zangodb": "^1.0.7"
+    "vue-color": "^2.7.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.0",

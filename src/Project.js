@@ -1,5 +1,8 @@
 export default class Project {
   constructor() {
-    //pass;
+    this.name = null;
+    this.distUnit = null;
+    this.bearingBasis = null;
+    this.distanceBasis = null;
   }
 };

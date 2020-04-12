@@ -5,7 +5,10 @@
       <Welcome
         v-if="!project"
         @newProject="newProject"
-      ></Welcome>
+      />
+      <Editor
+        v-if="project"
+      />
     </div>
   </div>
 </template>
@@ -28,13 +31,10 @@
 
 import {UiToolbar} from 'keen-ui';
 
+import Editor from './components/Editor.vue';
 import Project from './Project.js';
 import Welcome from './components/Welcome.vue';
-
-const state = {
-  header: null,
-  project: null
-};
+import {state} from './main.js';
 
 export default {
   name: 'App',

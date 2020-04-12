@@ -27,7 +27,7 @@
               </div>
             </UiButton>
             <h3 class="welcome-subgroup-title">Recent</h3>
-            <template v-for="project in recents">
+            <template v-for="project in projects">
               <UiButton class="welcome-tile" :key="project.id">
                 <div>
                   <p>{{project.name}}</p>
@@ -48,7 +48,7 @@
                 <p>Key bindings, direction and distance formats...</p>
               </div>
             </UiButton>
-            <UiButton icon="color_lens" class="welcome-tile">
+            <UiButton icon="color_lens" class="welcome-tile" v-on:click="openAppearanceSettings">
               <div>
                 <p>Appearance</p>
                 <p>Colors, font sizes, date and time formats...</p>
@@ -58,6 +58,8 @@
         </div>
       </div>
     </div>
+    <AppearanceSettings ref="appearanceSettings" />
+    <!-- <InputSettings /> -->
   </div>
 </template>
 
@@ -108,13 +110,6 @@
   .ui-button {
     cursor: pointer;
   }
-  /* temporary rules for user testing */
-  .ui-button {
-    cursor: not-allowed !important;
-  }
-  #new-project {
-    cursor: pointer !important;
-  }
 </style>
 <style>
   .welcome-tile .ui-button__icon {
@@ -124,22 +119,29 @@
 
 <script>
 
-import {UiButton} from 'keen-ui';
+import {
+  UiButton
+} from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
 
-import {recents} from '../../stateTemplate.js';
+import AppearanceSettings from './AppearanceSettings';
+import {state} from '../main.js';
 
 export default {
   name: 'Welcome',
   data() {
-    return {recents};
+    return state;
   },
   methods: {
     newProject() {
       this.$emit('newProject');
+    },
+    openAppearanceSettings() {
+      this.$refs.appearanceSettings.open();
     }
   },
   components: {
+    AppearanceSettings,
     UiButton
   }
 };
