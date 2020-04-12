@@ -4,7 +4,6 @@
     <div id="rest">
       <Welcome
         v-if="!project"
-        @newProject="newProject"
       />
       <Editor
         v-if="project"
@@ -32,7 +31,6 @@
 import {UiToolbar} from 'keen-ui';
 
 import Editor from './components/Editor.vue';
-import Project from './Project.js';
 import Welcome from './components/Welcome.vue';
 import {state} from './main.js';
 
@@ -41,12 +39,8 @@ export default {
   data() {
     return state;
   },
-  methods: {
-    newProject() {
-      state.project = new Project();
-    }
-  },
   components: {
+    Editor,
     UiToolbar,
     Welcome
   }

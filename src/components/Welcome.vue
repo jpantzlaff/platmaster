@@ -26,15 +26,17 @@
                 <p>Use templates to create new projects more quickly.</p>
               </div>
             </UiButton>
-            <h3 class="welcome-subgroup-title">Recent</h3>
-            <template v-for="project in projects">
-              <UiButton class="welcome-tile" :key="project.id">
-                <div>
-                  <p>{{project.name}}</p>
-                  <p>Last modified on {{project.lastModified.toLocaleDateString()}} at {{project.lastModified.toLocaleTimeString()}}</p>
-                </div>
-              </UiButton>
-            </template>
+            <div v-if="projects.length">
+              <h3 class="welcome-subgroup-title">Recent</h3>
+              <template v-for="project in projects">
+                <UiButton class="welcome-tile" :key="project.id">
+                  <div>
+                    <p>{{project.name}}</p>
+                    <p>Last modified on {{formatDate(project.lastModified)}} at {{formatTime(project.lastModified)}}</p>
+                  </div>
+                </UiButton>
+              </template>
+            </div>
           </div>
         </div>
       </div>
@@ -126,6 +128,8 @@ import 'keen-ui/dist/keen-ui.css';
 
 import AppearanceSettings from './AppearanceSettings';
 import {state} from '../main.js';
+import Project from '../Project.js';
+import {formatDate, formatTime} from '../viz.js';
 
 export default {
   name: 'Welcome',
@@ -134,7 +138,7 @@ export default {
   },
   methods: {
     newProject() {
-      this.$emit('newProject');
+      state.project = new Project();
     },
     openAppearanceSettings() {
       this.$refs.appearanceSettings.open();
