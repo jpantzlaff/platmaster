@@ -1,6 +1,6 @@
 export async function getJson(url, params) {
   const target = new URL(url);
-  Object.entries(params).forEach(target.searchParams.append);
+  Object.entries(params).forEach((p) => target.searchParams.append(...p));
   let response;
   try {
     response = await fetch(target.href).then((r) => r.text());

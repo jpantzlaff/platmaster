@@ -18,10 +18,12 @@
     flex-direction: column;
   }
   #header {
+    background-color: var(--color2, #ffffff);
     flex: 0 0 56px;
     padding-left: 4rem;
   }
   #rest {
+    background-color: var(--color1, #ffffff);
     flex: 1 1 auto;
   }
 </style>

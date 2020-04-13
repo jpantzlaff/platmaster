@@ -6,10 +6,9 @@
           <h2 class="welcome-group-title">Projects</h2>
           <div class="welcome-tile-group">
             <UiButton
-              id="new-project"
               icon="add"
               class="welcome-tile"
-              v-on:click="newProject"
+              v-on:click="openProjectCreate"
             >
               <div>
                 <p>Start new project</p>
@@ -61,6 +60,7 @@
       </div>
     </div>
     <AppearanceSettings ref="appearanceSettings" />
+    <ProjectCreate ref="projectCreate" />
     <!-- <InputSettings /> -->
   </div>
 </template>
@@ -92,6 +92,7 @@
     margin: 1rem 0 0 0;
   }
   .welcome-tile {
+    cursor: pointer;
     min-height: 5rem;
     margin: 0.5rem 0;
     justify-content: flex-start;
@@ -108,9 +109,6 @@
     font-size: 0.85rem;
     letter-spacing: 0.02rem;
     margin-top: 0.6rem;
-  }
-  .ui-button {
-    cursor: pointer;
   }
 </style>
 <style>
@@ -129,6 +127,7 @@ import 'keen-ui/dist/keen-ui.css';
 import AppearanceSettings from './AppearanceSettings';
 import {state} from '../main.js';
 import Project from '../Project.js';
+import ProjectCreate from './ProjectCreate';
 import {formatDate, formatTime} from '../viz.js';
 
 export default {
@@ -137,15 +136,16 @@ export default {
     return state;
   },
   methods: {
-    newProject() {
-      state.project = new Project();
-    },
     openAppearanceSettings() {
       this.$refs.appearanceSettings.open();
+    },
+    openProjectCreate() {
+      this.$refs.projectCreate.open();
     }
   },
   components: {
     AppearanceSettings,
+    ProjectCreate,
     UiButton
   }
 };

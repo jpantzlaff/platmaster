@@ -1,8 +1,10 @@
 <template>
   <UiModal
+    id="appearance-settings"
     ref="modal"
     size="large"
     title="Appearance"
+    dismissOn="close-button esc"
     @close="save"
   >
     <div class="settings-section">
@@ -21,7 +23,10 @@
           <ColorPicker v-model="colorText" />
         </div>
       </div>
-      <UiSwitch v-model="darkEditor" label="Use dark mode in editor" />
+      <UiCheckbox
+        v-model="darkEditor"
+        label="Invert color of documents in editor"
+      />
     </div>
     <div class="settings-section">
       <h2 class="settings-section-title">Dates and times</h2>
@@ -42,15 +47,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="settings-section">
-      <h2 class="settings-section-title">Text</h2>
-      <h3>Scale</h3>
-      <UiSlider
-        v-model="fontScale"
-        :min="70"
-        :max="130"
-      />
-    </div> -->
   </UiModal>
 </template>
 
@@ -58,6 +54,12 @@
   .settings-group {
     display: flex;
     margin: -1em;
+  }
+  .settings-section:not(:last-child) {
+    margin-bottom: 2.5rem;
+  }
+  .settings-section-title {
+    margin-top: 0;
   }
   .setting {
     flex: 1 0 auto;
@@ -68,6 +70,9 @@
   }
   .vc-chrome {
     width: 100%;
+  }
+  .ui-checkbox {
+    margin-top: 2em;
   }
 </style>
 <style>
@@ -87,10 +92,9 @@
 <script>
 
 import {
+  UiCheckbox,
   UiModal,
-  UiSelect,
-  // UiSlider,
-  UiSwitch
+  UiSelect
 } from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
 import {Chrome as ColorPicker} from 'vue-color';
@@ -135,9 +139,9 @@ export default {
   },
   components: {
     ColorPicker,
+    UiCheckbox,
     UiModal,
-    UiSelect,
-    UiSwitch
+    UiSelect
   }
 };
 

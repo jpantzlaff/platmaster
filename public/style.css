@@ -1,0 +1,54 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Hind Siliguri';
+}
+html, body, #app {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.ui-modal__body {
+    background-color: var(--color1, #ffffff) !important;
+}
+.ui-modal__header, .ui-button, .ui-select__options {
+    background-color: var(--color2, #eeeeee) !important;
+}
+h1, h2, h3, h4, h5, h6, p,
+.ui-toolbar__brand,
+.ui-button__icon,
+.ui-select__label-text,
+.ui-select__display-value,
+.ui-select__dropdown-button,
+.ui-select-option,
+.ui-textbox__input,
+.ui-textbox__label-text,
+.ui-close-button__icon,
+.ui-checkbox__label-text {
+    color: var(--text-color, #000000) !important;
+}
+.ui-select__display, .ui-textbox__input {
+    border-bottom-color: var(--text-color, #000000) !important;
+}
+.ui-modal__container {
+    background-color: transparent !important;
+}
+h2 {
+    letter-spacing: 0.02em;
+}
+.ui-checkbox__checkmark-background {
+    border: none !important;
+}
+.ui-checkbox__checkmark {
+    background-color: var(--text-color, #000000) !important;
+}
+
+/* * {
+    color: var(--text-color, #000000) !important;
+}
+#rest, .ui-modal__body {
+    background-color: var(--color1, #ffffff) !important;
+}
+#header, .ui-button, .ui-modal__header {
+    background-color: var(--color2, #eeeeee) !important;
+} */

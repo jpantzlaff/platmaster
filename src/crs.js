@@ -61,15 +61,17 @@ export default class Crs {
   static async queryProj(query) {
     const response = await getJson('https://epsg.io', {
       format: 'json',
-      q: encodeURIComponent(query)
+      q: query
     });
-    return {
-      accuracy: response.accuracy,
-      area: response.area,
-      code: response.code,
-      name: response.name,
-      proj4: response.proj4,
-      unit: response.unit
-    };
+    return (Array.isArray(response?.results))
+      ? response.results.map((r) => ({
+        accuracy: r.accuracy,
+        area: r.area,
+        code: r.code,
+        name: r.name,
+        proj4: r.proj4,
+        unit: r.unit
+      }))
+      : [];
   }
 };

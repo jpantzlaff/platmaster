@@ -1,20 +1,5 @@
 import {state} from './main.js';
 
-document.querySelector('head').insertAdjacentHTML('beforeend', `
-  <style>
-    * {
-      color: #000000 !important;
-    }
-    #rest, .ui-modal__body {
-      background-color: #ffffff !important;
-    }
-    #header, .ui-button, .ui-modal__header {
-      background-color: #eeeeee !important;
-    }
-  </style>
-`);
-const stylesheet = document.styleSheets[document.styleSheets.length - 1];
-
 const dateFormats = {
   'YYYY-MM-DD': 'en-CA',
   'MM/DD/YYYY': 'en-US',
@@ -36,15 +21,15 @@ export function formatTime(date) {
 };
 
 export function setAccentColor(value) {
-  stylesheet.cssRules[2].style.setProperty('background-color', value, 'important');
+  document.documentElement.style.setProperty('--color2', value);
 };
 
 export function setBackgroundColor(value) {
-  stylesheet.cssRules[1].style.setProperty('background-color', value, 'important');
+  document.documentElement.style.setProperty('--color1', value);
 };
 
 export function setTextColor(value) {
-  stylesheet.cssRules[0].style.setProperty('color', value, 'important');
+  document.documentElement.style.setProperty('--text-color', value);
 };
 
 // export function setTextScale(value) {
