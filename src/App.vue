@@ -1,13 +1,23 @@
 <template>
   <div id="app">
-    <UiToolbar id="header" brand="PlatMaster" :title="header" removeNavIcon></UiToolbar>
+    <UiToolbar id="header" brand="PlatMaster" :title="header" removeNavIcon />
+    <UiFab
+      id="close"
+      icon="close"
+      size="small"
+      v-if="activeView !== 'welcome'"
+      v-on:click="home"
+    />
     <div id="rest">
       <Welcome
-        v-if="!project"
+        v-if="activeView === 'welcome'"
       />
-      <Editor
-        v-if="project"
+      <Templates
+        v-if="activeView === 'templates'"
       />
+      <!-- <Editor
+        v-if="activeView='editor'"
+      /> -->
     </div>
   </div>
 </template>
@@ -16,6 +26,13 @@
   #app {
     display: flex;
     flex-direction: column;
+  }
+  #close {
+    background-color: transparent !important;
+    box-shadow: none;
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
   }
   #header {
     background-color: var(--color2, #ffffff);
@@ -30,9 +47,13 @@
 
 <script>
 
-import {UiToolbar} from 'keen-ui';
+import {
+  UiFab,
+  UiToolbar
+} from 'keen-ui';
 
 import Editor from './components/Editor.vue';
+import Templates from './components/Templates.vue';
 import Welcome from './components/Welcome.vue';
 import {state} from './main.js';
 
@@ -41,8 +62,16 @@ export default {
   data() {
     return state;
   },
+  methods: {
+    home() {
+      state.activeView = 'welcome';
+      state.header = null;
+    }
+  },
   components: {
-    Editor,
+    // Editor,
+    Templates,
+    UiFab,
     UiToolbar,
     Welcome
   }

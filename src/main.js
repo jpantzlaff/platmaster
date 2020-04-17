@@ -7,6 +7,7 @@ import Db from './db.js';
 export const db = new Db();
 
 export const state = {
+  activeView: 'welcome',
   appearance: {
     color1: '#ffffff',
     color2: '#eeeeee',
@@ -18,7 +19,8 @@ export const state = {
   },
   header: null,
   project: null,
-  projects: []
+  projects: [],
+  templates: []
 };
 console.log(JSON.stringify(state.appearance));
 

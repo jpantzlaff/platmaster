@@ -8,7 +8,7 @@ html, body, #app {
     padding: 0;
     width: 100%;
 }
-.ui-modal__body {
+.ui-modal__body, .ui-fab {
     background-color: var(--color1, #ffffff) !important;
 }
 .ui-modal__header, .ui-button, .ui-select__options {
@@ -24,7 +24,10 @@ h1, h2, h3, h4, h5, h6, p,
 .ui-textbox__input,
 .ui-textbox__label-text,
 .ui-close-button__icon,
-.ui-checkbox__label-text {
+.ui-checkbox__label-text,
+.ui-toolbar__title,
+.ui-button__content,
+.ui-fab__icon {
     color: var(--text-color, #000000) !important;
 }
 .ui-select__display, .ui-textbox__input {
@@ -42,13 +45,6 @@ h2 {
 .ui-checkbox__checkmark {
     background-color: var(--text-color, #000000) !important;
 }
-
-/* * {
-    color: var(--text-color, #000000) !important;
+.ui-toolbar__body.has-brand-divider {
+    border-left-color: var(--light-text-color, #ffffff) !important;
 }
-#rest, .ui-modal__body {
-    background-color: var(--color1, #ffffff) !important;
-}
-#header, .ui-button, .ui-modal__header {
-    background-color: var(--color2, #eeeeee) !important;
-} */

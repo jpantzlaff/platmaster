@@ -8,7 +8,7 @@
             <UiButton
               icon="add"
               class="welcome-tile"
-              v-on:click="openProjectCreate"
+              v-on:click="newProject"
             >
               <div>
                 <p>Start new project</p>
@@ -19,15 +19,18 @@
                 <p>Open existing project</p>
               </div>
             </UiButton>
-            <UiButton icon="playlist_add" class="welcome-tile">
+            <UiButton
+              icon="playlist_add"
+              class="welcome-tile"
+              v-on:click="openTemplates">
               <div>
                 <p>Manage templates</p>
                 <p>Use templates to create new projects more quickly.</p>
               </div>
             </UiButton>
-            <div v-if="projects.length">
+            <div v-if="state.projects.length">
               <h3 class="welcome-subgroup-title">Recent</h3>
-              <template v-for="project in projects">
+              <template v-for="project in state.projects">
                 <UiButton class="welcome-tile" :key="project.id">
                   <div>
                     <p>{{project.name}}</p>
@@ -133,14 +136,22 @@ import {formatDate, formatTime} from '../viz.js';
 export default {
   name: 'Welcome',
   data() {
-    return state;
+    return {
+      state
+    };
   },
   methods: {
+    formatDate,
+    formatTime,
+    newProject() {
+      this.$refs.projectCreate.open();
+    },
     openAppearanceSettings() {
       this.$refs.appearanceSettings.open();
     },
-    openProjectCreate() {
-      this.$refs.projectCreate.open();
+    openTemplates() {
+      state.activeView = 'templates';
+      state.header = 'Project Templates';
     }
   },
   components: {

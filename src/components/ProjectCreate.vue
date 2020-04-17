@@ -6,33 +6,29 @@
     dismissOn="close-button esc"
   >
     <UiTextbox
-      v-model="name"
+      v-model="template.name"
       label="Project name"
     />
     <UiSelect
-      v-model="distanceUnit"
+      v-model="template.distanceUnit"
       label="Unit of distance"
-      :options="[
-        {label: 'Meter', value: 1},
-        {label: 'Foot (International)', value: 0.3048},
-        {label: 'Foot (US)', value: 0.3048006096012192}
-      ]"
+      :options="template.distanceUnits"
     />
     <UiSelect
-      v-model="distanceBasisType"
+      v-model="template.distanceBasisType"
       label="Basis of distances"
       :options="['Grid', 'Ground']"
       v-on:input="enforceBearingBasis"
     />
     <UiSelect
       v-if="distanceBasisType === 'Ground'"
-      v-model="bearingBasisType"
+      v-model="template.bearingBasisType"
       label="Basis of bearings"
       :options="['Grid', 'True/geodetic north', 'Magnetic north', 'None']"
     />
     <UiSelect
       v-if="distanceBasisType === 'Grid' || bearingBasisType === 'Grid'"
-      v-model="crs"
+      v-model="template.crs"
       label="Coordinate reference system of the grid"
       :disableFilter="true"
       :hasSearch="true"
@@ -43,7 +39,7 @@
     />
     <UiDatepicker
       v-if="bearingBasisType === 'Magnetic north'"
-      v-model="magDeclDate"
+      v-model="template.date"
       :customFormatter="formatDate"
       label="Date of survey (approximate)"
     />
@@ -70,18 +66,21 @@ import {formatDate} from '../viz.js';
 
 export default {
   name: 'ProjectCreate',
+  props: {
+    project: Object
+  },
   data() {
     return {
-      // Collect: name, distance unit, bearing basis (CRS, true north, magnetic north and date, none/other), distance basis (ground/none, CRS), target CRS
-      name: 'Untitled',
-      distanceUnit: {label: 'Meter', value: 1},
-      distanceBasisType: 'Ground',
-      bearingBasisType: 'None',
+      // name: 'Untitled',
+      // distanceUnit: {label: 'Meter', value: 1},
+      // distanceBasisType: 'Ground',
+      // bearingBasisType: 'None',
       crsLoading: false,
       crsNoResult: false,
-      crs: {},
+      // crs: {},
       crsOptions: [],
-      magDeclDate: null
+      // magDeclDate: null
+      template: this.$props.project
     };
   },
   methods: {

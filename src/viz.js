@@ -30,6 +30,7 @@ export function setBackgroundColor(value) {
 
 export function setTextColor(value) {
   document.documentElement.style.setProperty('--text-color', value);
+  document.documentElement.style.setProperty('--light-text-color', value.slice(0, 7) + '77');
 };
 
 // export function setTextScale(value) {
