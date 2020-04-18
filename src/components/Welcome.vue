@@ -36,18 +36,19 @@
         </div>
         <div
           class="welcome-group"
-          v-if="state.projects.length"
           style="flex: 1 1 auto; height: 0"
         >
           <h3
             class="welcome-subgroup-title"
+            v-if="state.projects.length > 0"
             style="flex: 0 0 auto"
           >Recent</h3>
           <div
             class="welcome-tile-group"
             style="flex: 1 1 auto; height: 0"
+            ref="recentProjectTiles"
           >
-            <template v-for="project in state.projects">
+            <template v-for="project in recentProjects">
               <UiButton class="welcome-tile" :key="project.id">
                 <div>
                   <p>{{project.name}}</p>
@@ -168,16 +169,21 @@ import {
 
 export default {
   name: 'Welcome',
-  computed: {
-    recentProjects() {
-      const numberThatFit = 0;
-    }
-  },
   data() {
     return {
       state,
-      projectCreateOpen: false
+      projectCreateOpen: false,
+      recentProjects: []
     };
+  },
+  mounted() {
+    if (state.projects.length > 0) {
+      const height = this.$refs.recentProjectTiles.clientHeight;
+      const tileSize = getRootFontSize() * 6;
+      this.recentProjects = Array.from(state.projects)
+        .sort((a, b) => b.lastModified.valueOf() - a.lastModified.valueOf())
+        .slice(0, Math.floor(height / tileSize));
+    }
   },
   methods: {
     formatDate,
@@ -195,7 +201,7 @@ export default {
     openTemplates() {
       state.header = 'Project Templates';
       state.activeView = 'templates';
-    }
+    },
   },
   components: {
     AppearanceSettings,
