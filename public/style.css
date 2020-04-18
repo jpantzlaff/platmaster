@@ -49,3 +49,6 @@ h2 {
 .ui-toolbar__body.has-brand-divider {
     border-left-color: var(--light-text-color, #ffffff) !important;
 }
+.ui-fab, .ui-icon-button, .ui-button {
+    cursor: pointer !important;
+}

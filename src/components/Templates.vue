@@ -12,18 +12,18 @@
         New Template
       </UiButton>
     </div>
+    <div class="no-templates" v-else>
+      <h3 class="no-templates-text">No project templates have been created.</h3>
+      <br>
+      <UiButton
+        size="large"
+        icon="playlist_add"
+        v-on:click="newTemplate"
+      >
+        New Template
+      </UiButton>
+    </div>
     <div class="template-tiles">
-      <div class="no-templates" v-if="state.templates.length < 1">
-        <h3 class="no-templates-text">No project templates have been created.</h3>
-        <br>
-        <UiButton
-          size="large"
-          icon="playlist_add"
-          v-on:click="newTemplate"
-        >
-          New Template
-        </UiButton>
-      </div>
       <template v-for="template in state.templates">
         <div
           :key="template.id"
@@ -115,7 +115,6 @@
     display: flex;
     flex: 0 1 auto;
     flex-wrap: wrap;
-    height: 100%;
     margin: 0 -0.5rem;
     overflow-y: auto;
   }
@@ -179,6 +178,7 @@ export default {
     deleteTemplate(template) {
       const index = state.templates.indexOf(template);
       state.templates.splice(index, 1);
+      db.delete('templates', 'id', template.id);
     },
     newTemplate() {
       const template = new ProjectTemplate();
