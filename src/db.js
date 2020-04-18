@@ -4,6 +4,13 @@ export default class Db {
   constructor() {
     this.schema = schema.create('platmaster', 1);
     this.schema
+      .createTable('history')
+      .addColumn('id', Type.INTEGER)
+      .addColumn('projectId', Type.STRING)
+      .addColumn('type', Type.STRING)
+      .addColumn('featureId', Type.STRING)
+      .addPrimaryKey(['id'], true);
+    this.schema
       .createTable('settings')
       .addColumn('id', Type.INTEGER)
       .addColumn('color1', Type.STRING)
@@ -12,15 +19,19 @@ export default class Db {
       .addColumn('darkEditor', Type.BOOLEAN)
       .addColumn('dateFormat', Type.STRING)
       .addColumn('timeFormat', Type.STRING)
-      // .addColumn('fontScale', Type.INTEGER)
       .addPrimaryKey(['id'], true);
     this.schema
-      .createTable('history')
-      .addColumn('id', Type.INTEGER)
-      .addColumn('projectId', Type.STRING)
-      .addColumn('type', Type.STRING)
-      .addColumn('featureId', Type.STRING)
-      .addPrimaryKey(['id'], true);
+      .createTable('templates')
+      .addColumn('id', Type.STRING)
+      .addColumn('bearingBasisDate', Type.DATE_TIME)
+      .addColumn('bearingBasisType', Type.STRING)
+      .addColumn('crs', Type.OBJECT)
+      .addColumn('distanceBasisType', Type.STRING)
+      .addColumn('distanceUnit', Type.OBJECT)
+      .addColumn('lastUsed', Type.DATE_TIME)
+      .addColumn('name', Type.STRING)
+      .addPrimaryKey(['id'], false)
+      .addNullable(['crs', 'bearingBasisDate']);
   }
 
   async delete(tableName, property, equals) {
@@ -42,10 +53,15 @@ export default class Db {
     return query.into(table).values([row]).exec();
   }
 
-  async select(tableName, tests = []) {
+  async select(tableName, test = []) {
     const table = this.db.getSchema().table(tableName);
-    const [column, rel, value] = tests;
-    return this.db.select().from(table).where(table[column][rel](value)).exec();
+    const query = this.db.select().from(table);
+    if (test.length > 0) {
+      const [column, rel, value] = test;
+      return query.where(table[column][rel](value)).exec();
+    } else {
+      return query.exec();
+    }
     // for (let [column, rel, value] of tests) {
     //   query = query.where(table[column][rel](value));
     // }

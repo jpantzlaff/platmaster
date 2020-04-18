@@ -1,44 +1,63 @@
 <template>
   <div id="templates">
-    <div class="templates-actions">
+    <div
+      class="templates-actions"
+      v-if="state.templates.length > 0"
+    >
       <UiButton
         size="large"
         icon="playlist_add"
-        class="welcome-tile"
         v-on:click="newTemplate"
       >
         New Template
       </UiButton>
     </div>
     <div class="template-tiles">
-      <div class="no-templates" v-if="templates.length < 1">
-        <h3 class="no-templates-text">No project templates have been created yet.</h3>
+      <div class="no-templates" v-if="state.templates.length < 1">
+        <h3 class="no-templates-text">No project templates have been created.</h3>
+        <br>
+        <UiButton
+          size="large"
+          icon="playlist_add"
+          v-on:click="newTemplate"
+        >
+          New Template
+        </UiButton>
       </div>
       <template v-for="template in state.templates">
         <div
           :key="template.id"
-          class="template-tile"
+          class="template-tile-holder"
         >
-          <p class="template-name">{{template.name}}</p>
-          <p class="template-date">{{formatDate(template.lastModified)}}&ensp;{{formatTime(template.lastModified)}}</p>
-          <div class="template-actions">
-            <UiFab
-              class="template-action"
-              icon="edit"
-              size="small"
-            />
-            <UiFab
-              class="template-action"
-              icon="delete"
-              size="small"
-            />
+          <div
+            :key="template.id"
+            class="template-tile"
+          >
+            <p class="template-name">{{template.name}}</p>
+            <p class="template-date">{{formatDate(template.lastUsed)}}&ensp;{{formatTime(template.lastUsed)}}</p>
+            <div class="template-actions">
+              <UiIconButton
+                class="template-action"
+                icon="edit"
+                size="small"
+                v-on:click="currentTemplate = template; editOpen = true"
+              />
+              <UiIconButton
+                class="template-action"
+                icon="delete"
+                size="small"
+                v-on:click="deleteTemplate(template)"
+              />
+            </div>
           </div>
         </div>
       </template>
     </div>
-    <ProjectCreate
-      ref="projectCreate"
+    <ProjectCreateEdit
+      v-if="editOpen"
+      :edit="true"
       :project="currentTemplate"
+      @close="editClose"
     />
   </div>
 </template>
@@ -48,6 +67,8 @@
     align-items: center;
     justify-content: center;
     display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
     height: 100%;
   }
   .no-templates-text {
@@ -60,11 +81,46 @@
     padding: 2rem;
     width: 100%;
   }
+  .template-action:not(:first-child) {
+    margin-left: 1em;
+  }
+  .template-actions {
+    display: flex;
+    flex: 1 0 auto;
+    justify-content: flex-end;
+  }
+  .template-name, .template-date {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
   .template-date {
-    color: var(--light-text-color);
+    color: var(--light-text-color) !important;
+    font-size: 90%;
+    margin-right: 3em;
+  }
+  .template-name {
+    margin-right: 2em;
+  }
+  .template-tile-holder {
+    flex: 0 0 50%;
+    padding: 0.5rem;
+  }
+  .template-tile {
+    align-items: center;
+    background-color: var(--color2);
+    display: flex;
+    padding: 0.5em 1em;
   }
   .template-tiles {
-    flex: 1 1 auto;
+    display: flex;
+    flex: 0 1 auto;
+    flex-wrap: wrap;
+    height: 100%;
+    margin: 0 -0.5rem;
+    overflow-y: auto;
+  }
+  .templates-actions {
+    margin-bottom: 1rem;
   }
 </style>
 
@@ -72,13 +128,12 @@
 
 import {
   UiButton,
-  UiFab
+  UiIconButton
 } from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
 
-import {state} from '../main.js';
-// import Project from '../Project.js';
-import ProjectCreate from './ProjectCreate';
+import {db, state} from '../main.js';
+import ProjectCreateEdit from './ProjectCreateEdit';
 import ProjectTemplate from '../ProjectTemplate.js';
 import {formatDate, formatTime} from '../viz.js';
 
@@ -87,26 +142,55 @@ export default {
   data() {
     return {
       state,
-      currentTemplate: {}
+      currentTemplate: {},
+      editOpen: false
     };
   },
   methods: {
     close() {
-      this.$data.activeView = 'welcome';
-      this.$data.header = null;
+      state.activeView = 'welcome';
+      state.header = null;
+    },
+    editClose() {
+      this.editOpen = false;
+      const {
+        id,
+        bearingBasisDate,
+        bearingBasisType,
+        crs,
+        distanceBasisType,
+        distanceUnit,
+        lastUsed,
+        name
+      } = this.currentTemplate;
+      db.insert('templates', {
+        id,
+        bearingBasisDate,
+        bearingBasisType,
+        crs: {...crs},
+        distanceBasisType,
+        distanceUnit: {...distanceUnit},
+        lastUsed,
+        name
+      }, true);
     },
     formatDate,
     formatTime,
+    deleteTemplate(template) {
+      const index = state.templates.indexOf(template);
+      state.templates.splice(index, 1);
+    },
     newTemplate() {
       const template = new ProjectTemplate();
       state.templates.push(template);
-      this.$data.currentTemplate = template;
-      this.$refs.projectCreate.open();
+      this.currentTemplate = template;
+      this.editOpen = true;
     }
   },
   components: {
-    ProjectCreate,
-    UiButton
+    ProjectCreateEdit,
+    UiButton,
+    UiIconButton
   }
 };
 

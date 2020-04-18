@@ -42,6 +42,7 @@
   #rest {
     background-color: var(--color1, #ffffff);
     flex: 1 1 auto;
+    height: 0;
   }
 </style>
 

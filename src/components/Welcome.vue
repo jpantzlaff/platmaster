@@ -63,7 +63,10 @@
       </div>
     </div>
     <AppearanceSettings ref="appearanceSettings" />
-    <ProjectCreate ref="projectCreate" />
+    <ProjectCreateEdit
+      v-if="projectCreateOpen"
+      @close="projectCreateOpen = false"
+    />
     <!-- <InputSettings /> -->
   </div>
 </template>
@@ -130,21 +133,22 @@ import 'keen-ui/dist/keen-ui.css';
 import AppearanceSettings from './AppearanceSettings';
 import {state} from '../main.js';
 import Project from '../Project.js';
-import ProjectCreate from './ProjectCreate';
+import ProjectCreateEdit from './ProjectCreateEdit';
 import {formatDate, formatTime} from '../viz.js';
 
 export default {
   name: 'Welcome',
   data() {
     return {
-      state
+      state,
+      projectCreateOpen: false
     };
   },
   methods: {
     formatDate,
     formatTime,
     newProject() {
-      this.$refs.projectCreate.open();
+      this.projectCreateOpen = true;
     },
     openAppearanceSettings() {
       this.$refs.appearanceSettings.open();
@@ -156,7 +160,7 @@ export default {
   },
   components: {
     AppearanceSettings,
-    ProjectCreate,
+    ProjectCreateEdit,
     UiButton
   }
 };

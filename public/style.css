@@ -8,7 +8,7 @@ html, body, #app {
     padding: 0;
     width: 100%;
 }
-.ui-modal__body, .ui-fab {
+.ui-modal__body, .ui-fab, .ui-icon-button {
     background-color: var(--color1, #ffffff) !important;
 }
 .ui-modal__header, .ui-button, .ui-select__options {
@@ -27,7 +27,8 @@ h1, h2, h3, h4, h5, h6, p,
 .ui-checkbox__label-text,
 .ui-toolbar__title,
 .ui-button__content,
-.ui-fab__icon {
+.ui-fab__icon,
+.ui-icon-button {
     color: var(--text-color, #000000) !important;
 }
 .ui-select__display, .ui-textbox__input {

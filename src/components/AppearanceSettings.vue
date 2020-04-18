@@ -117,7 +117,6 @@ export default {
       this.$refs.modal.open();
     },
     save() {
-      console.log(JSON.stringify(state.appearance));
       const {color1, color2, colorText, darkEditor, dateFormat, timeFormat} = state.appearance;
       db.insert('settings', {
         id: 1,
@@ -127,7 +126,6 @@ export default {
         darkEditor,
         dateFormat,
         timeFormat
-        // fontScale
       }, true);
     }
   },
@@ -135,7 +133,6 @@ export default {
     color1: (value) => setBackgroundColor(value.hex),
     color2: (value) => setAccentColor(value.hex),
     colorText: (value) => setTextColor(value.hex)
-    // fontScale: (value) => setTextScale(value)
   },
   components: {
     ColorPicker,
