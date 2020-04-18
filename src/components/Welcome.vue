@@ -1,8 +1,8 @@
 <template>
   <div id="welcome">
     <div id="welcome-columns">
-      <div>
-        <div class="welcome-group">
+      <div class="welcome-column">
+        <div class="welcome-group" style="flex: 0 0 auto">
           <h2 class="welcome-group-title">Projects</h2>
           <div class="welcome-tile-group">
             <UiButton
@@ -14,7 +14,11 @@
                 <p>Start new project</p>
               </div>
             </UiButton>
-            <UiButton icon="folder_open" class="welcome-tile">
+            <UiButton
+              icon="folder_open"
+              class="welcome-tile"
+              v-on:click="openProjects"
+            >
               <div>
                 <p>Open existing project</p>
               </div>
@@ -28,21 +32,33 @@
                 <p>Use templates to create new projects more quickly.</p>
               </div>
             </UiButton>
-            <div v-if="state.projects.length">
-              <h3 class="welcome-subgroup-title">Recent</h3>
-              <template v-for="project in state.projects">
-                <UiButton class="welcome-tile" :key="project.id">
-                  <div>
-                    <p>{{project.name}}</p>
-                    <p>Last modified on {{formatDate(project.lastModified)}} at {{formatTime(project.lastModified)}}</p>
-                  </div>
-                </UiButton>
-              </template>
-            </div>
+          </div>
+        </div>
+        <div
+          class="welcome-group"
+          v-if="state.projects.length"
+          style="flex: 1 1 auto; height: 0"
+        >
+          <h3
+            class="welcome-subgroup-title"
+            style="flex: 0 0 auto"
+          >Recent</h3>
+          <div
+            class="welcome-tile-group"
+            style="flex: 1 1 auto; height: 0"
+          >
+            <template v-for="project in state.projects">
+              <UiButton class="welcome-tile" :key="project.id">
+                <div>
+                  <p>{{project.name}}</p>
+                  <p>Last modified on {{formatDate(project.lastModified)}} at {{formatTime(project.lastModified)}}</p>
+                </div>
+              </UiButton>
+            </template>
           </div>
         </div>
       </div>
-      <div>
+      <div class="welcome-column">
         <div class="welcome-group">
           <h2 class="welcome-group-title">Settings</h2>
           <div class="welcome-tile-group">
@@ -79,19 +95,29 @@
     padding: 2rem;
     width: 100%;
   }
+  .welcome-column {
+    display: flex;
+    flex-direction: column;
+  }
   #welcome-columns {
     display: flex;
     flex: 1 1 auto;
+    height: 100%;
   }
   #welcome-columns > div {
     flex: 1 0 50%;
     padding: 0 2rem;
+  }
+  .welcome-group {
+    display: flex;
+    flex-direction: column;
   }
   .welcome-group-title {
     margin: 0;
   }
   .welcome-tile-group {
     display: flex;
+    flex: 1 1 auto;
     flex-direction: column;
   }
   .welcome-subgroup-title {
@@ -134,10 +160,19 @@ import AppearanceSettings from './AppearanceSettings';
 import {state} from '../main.js';
 import Project from '../Project.js';
 import ProjectCreateEdit from './ProjectCreateEdit';
-import {formatDate, formatTime} from '../viz.js';
+import {
+  formatDate,
+  formatTime,
+  getRootFontSize
+} from '../viz.js';
 
 export default {
   name: 'Welcome',
+  computed: {
+    recentProjects() {
+      const numberThatFit = 0;
+    }
+  },
   data() {
     return {
       state,
@@ -153,9 +188,13 @@ export default {
     openAppearanceSettings() {
       this.$refs.appearanceSettings.open();
     },
+    openProjects() {
+      state.header = 'Projects';
+      state.activeView = 'projects';
+    },
     openTemplates() {
-      state.activeView = 'templates';
       state.header = 'Project Templates';
+      state.activeView = 'templates';
     }
   },
   components: {

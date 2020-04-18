@@ -11,6 +11,12 @@ export default class Db {
       .addColumn('featureId', Type.STRING)
       .addPrimaryKey(['id'], true);
     this.schema
+      .createTable('projects')
+      .addColumn('id', Type.STRING)
+      .addColumn('lastModified', Type.DATE_TIME)
+      .addColumn('name', Type.STRING)
+      .addPrimaryKey(['id'], false);
+    this.schema
       .createTable('settings')
       .addColumn('id', Type.INTEGER)
       .addColumn('color1', Type.STRING)

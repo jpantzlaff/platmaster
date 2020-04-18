@@ -14,7 +14,6 @@
     </div>
     <div class="no-templates" v-else>
       <h3 class="no-templates-text">No project templates have been created.</h3>
-      <br>
       <UiButton
         size="large"
         icon="playlist_add"
@@ -29,10 +28,7 @@
           :key="template.id"
           class="template-tile-holder"
         >
-          <div
-            :key="template.id"
-            class="template-tile"
-          >
+          <div class="template-tile">
             <p class="template-name">{{template.name}}</p>
             <p class="template-date">{{formatDate(template.lastUsed)}}&ensp;{{formatTime(template.lastUsed)}}</p>
             <div class="template-actions">
@@ -137,7 +133,7 @@ import ProjectTemplate from '../ProjectTemplate.js';
 import {formatDate, formatTime} from '../viz.js';
 
 export default {
-  name: 'Welcome',
+  name: 'Templates',
   data() {
     return {
       state,

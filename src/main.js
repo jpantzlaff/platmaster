@@ -2,6 +2,7 @@ import Vue from 'vue';
 
 import App from './App.vue';
 import Db from './db.js';
+import Project from './Project.js';
 import ProjectTemplate from './ProjectTemplate.js';
 
 export const db = new Db();
@@ -30,10 +31,18 @@ import {
 
 (async function() {
   await db.initialize();
-  const [settings, templates] = await Promise.all([
+  const [projects, settings, templates] = await Promise.all([
+    db.select('projects'),
     db.select('settings', ['id', 'eq', 1]),
     db.select('templates')
   ]);
+  for (let row of projects) {
+    const project = new Project();
+    for (let prop in project) {
+      if (row[prop]) project[prop] = row[prop];
+    }
+    state.projects.push(project);
+  }
   if (settings.length > 0) {
     const row = settings[0];
     for (let prop in state.appearance) {

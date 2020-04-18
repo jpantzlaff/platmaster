@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <UiToolbar id="header" brand="PlatMaster" :title="header" removeNavIcon />
-    <UiFab
+    <UiIconButton
       id="close"
       icon="close"
       size="small"
@@ -9,15 +9,10 @@
       v-on:click="home"
     />
     <div id="rest">
-      <Welcome
-        v-if="activeView === 'welcome'"
-      />
-      <Templates
-        v-if="activeView === 'templates'"
-      />
-      <!-- <Editor
-        v-if="activeView='editor'"
-      /> -->
+      <Templates v-if="activeView === 'templates'" />
+      <Projects v-else-if="activeView === 'projects'" />
+      <!-- <Editor v-else-if="activeView='editor'" /> -->
+      <Welcome v-else />
     </div>
   </div>
 </template>
@@ -29,10 +24,9 @@
   }
   #close {
     background-color: transparent !important;
-    box-shadow: none;
     position: absolute;
     right: 1rem;
-    top: 0.5rem;
+    top: 0.75rem;
   }
   #header {
     background-color: var(--color2, #ffffff);
@@ -49,11 +43,12 @@
 <script>
 
 import {
-  UiFab,
+  UiIconButton,
   UiToolbar
 } from 'keen-ui';
 
 import Editor from './components/Editor.vue';
+import Projects from './components/Projects.vue';
 import Templates from './components/Templates.vue';
 import Welcome from './components/Welcome.vue';
 import {state} from './main.js';
@@ -65,14 +60,15 @@ export default {
   },
   methods: {
     home() {
-      state.activeView = 'welcome';
       state.header = null;
+      state.activeView = 'welcome';
     }
   },
   components: {
     // Editor,
+    Projects,
     Templates,
-    UiFab,
+    UiIconButton,
     UiToolbar,
     Welcome
   }

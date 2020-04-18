@@ -20,6 +20,10 @@ export function formatTime(date) {
   );
 };
 
+export function getRootFontSize() {
+  return Number(getComputedStyle(document.body).getPropertyValue('font-size').slice(0, -2));
+};
+
 export function setAccentColor(value) {
   document.documentElement.style.setProperty('--color2', value);
 };

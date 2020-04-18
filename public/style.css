@@ -20,6 +20,7 @@ h1, h2, h3, h4, h5, h6, p,
 .ui-select__label-text,
 .ui-select__display-value,
 .ui-select__dropdown-button,
+.ui-datepicker__dropdown-button,
 .ui-select-option,
 .ui-textbox__input,
 .ui-textbox__label-text,
@@ -28,10 +29,18 @@ h1, h2, h3, h4, h5, h6, p,
 .ui-toolbar__title,
 .ui-button__content,
 .ui-fab__icon,
-.ui-icon-button {
+.ui-icon-button,
+.ui-datepicker__label-text,
+.ui-datepicker__display,
+.ui-textbox__feedback-text,
+.ui-select__feedback-text,
+.ui-datepicker__feedback-text {
     color: var(--text-color, #000000) !important;
 }
-.ui-select__display, .ui-textbox__input {
+.ui-select__display-value.is-placeholder {
+    color: var(--light-text-color, #000000) !important;
+}
+.ui-select__display, .ui-textbox__input, .ui-datepicker__display {
     border-bottom-color: var(--text-color, #000000) !important;
 }
 .ui-modal__container {
@@ -51,4 +60,12 @@ h2 {
 }
 .ui-fab, .ui-icon-button, .ui-button {
     cursor: pointer !important;
+}
+.ui-progress-circular__indeterminate-path {
+    stroke: var(--text-color, #000000) !important;
+}
+.ui-textbox__feedback-text,
+.ui-select__feedback-text,
+.ui-datepicker__feedback-text {
+    font-weight: bold;
 }
