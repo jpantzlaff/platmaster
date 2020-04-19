@@ -19,24 +19,28 @@ export const state = {
   },
   header: null,
   input: {
-    directionFormat: 'D.M.S',
+    directionFormat: 'N 45.33.36 E',
     distanceFormat: '1234.56',
     hotkeys: {
       continueLine: {
-        name: 'Continue in previous direction',
-        key: 'alt+w'
+        name: 'Line tool: Repeat direction',
+        combo: 'alt+w',
+        display: 'Alt + W'
       },
       drawLine: {
-        name: 'Activate line drawing tool',
-        key: 'alt+a'
+        name: 'Line tool: Activate',
+        combo: 'alt+a',
+        display: 'Alt + A'
       },
       repeat: {
-        name: 'Repeat previous line',
-        key: 'alt+d'
+        name: 'Line tool: Repeat direction and distance',
+        combo: 'alt+d',
+        display: 'Alt + D'
       },
       undo: {
         name: 'Undo',
-        key: 'alt+z'
+        combo: 'alt+z',
+        display: 'Alt + Z'
       }
       // connectWithCurve: 'alt+c'
       // toggleSnapping: 'alt+s'

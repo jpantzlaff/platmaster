@@ -67,13 +67,21 @@
         <div class="welcome-group">
           <h2 class="welcome-group-title">Settings</h2>
           <div class="welcome-tile-group">
-            <UiButton icon="keyboard" class="welcome-tile">
+            <UiButton
+              icon="keyboard"
+              class="welcome-tile"
+              v-on:click="openInputSettings"
+            >
               <div>
                 <p>Input</p>
                 <p>Key bindings, direction and distance formats...</p>
               </div>
             </UiButton>
-            <UiButton icon="color_lens" class="welcome-tile" v-on:click="openAppearanceSettings">
+            <UiButton
+              icon="color_lens"
+              class="welcome-tile"
+              v-on:click="openAppearanceSettings"
+            >
               <div>
                 <p>Appearance</p>
                 <p>Colors, font sizes, date and time formats...</p>

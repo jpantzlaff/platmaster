@@ -71,8 +71,8 @@ h2 {
 .ui-progress-circular__indeterminate-path {
     stroke: var(--text-color, #000000) !important;
 }
-.ui-textbox__feedback-text,
-.ui-select__feedback-text,
-.ui-datepicker__feedback-text {
+.ui-textbox.is-invalid .ui-textbox__feedback-text,
+.ui-select.is-invalid .ui-select__feedback-text,
+.ui-datepicker.is-invalid .ui-datepicker__feedback-text {
     font-weight: bold;
 }

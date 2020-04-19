@@ -106,8 +106,8 @@ import {
 import 'keen-ui/dist/keen-ui.css';
 import * as Leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import Tippy from 'tippy.js';
-import 'tippy.js/dist/tippy.css';
+// import Tippy from 'tippy.js';
+// import 'tippy.js/dist/tippy.css';
 
 import CRS from '../crs.js';
 import {db, state} from '../main.js';
