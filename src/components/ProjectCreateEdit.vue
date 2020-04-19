@@ -99,9 +99,8 @@ import {
   UiTextbox
 } from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
-import {Chrome as ColorPicker} from 'vue-color';
 
-import Crs from '../crs.js';
+import CRS from '../crs.js';
 import {db, state} from '../main.js';
 import Project from '../Project.js';
 import ProjectTemplate from '../ProjectTemplate.js';
@@ -189,7 +188,7 @@ export default {
     },
     async crsQuery(term) {
       this.crsLoading = true;
-      Crs.queryProj(term)
+      CRS.queryProj(term)
         .then((results) => {
           this.crsNoResult = false;
           this.crsOptions = results.map((r) => {

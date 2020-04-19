@@ -1,6 +1,6 @@
 import {getJson} from './util.js';
 
-export default class Crs {
+export default class CRS {
   constructor() {
     this.proj = null;
   }

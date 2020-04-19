@@ -4,6 +4,7 @@ export default class Project {
   constructor() {
     this.id = uuid();
     this.crs = null;
+    this.documents = [];
     this.documentCrs = {};
     this.lastModified = new Date();
     this.name = 'Untitled';

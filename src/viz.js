@@ -32,6 +32,10 @@ export function setBackgroundColor(value) {
   document.documentElement.style.setProperty('--color1', value);
 };
 
+export function setEditorColor(value) {
+  document.documentElement.style.setProperty('--editor-color', value);
+};
+
 export function setTextColor(value) {
   document.documentElement.style.setProperty('--text-color', value);
   document.documentElement.style.setProperty('--light-text-color', value.slice(0, 7) + '77');

@@ -49,7 +49,11 @@
             ref="recentProjectTiles"
           >
             <template v-for="project in recentProjects">
-              <UiButton class="welcome-tile" :key="project.id">
+              <UiButton
+                class="welcome-tile"
+                :key="project.id"
+                v-on:click="loadProject(project)"
+              >
                 <div>
                   <p>{{project.name}}</p>
                   <p>Last modified on {{formatDate(project.lastModified)}} at {{formatTime(project.lastModified)}}</p>
@@ -80,11 +84,11 @@
       </div>
     </div>
     <AppearanceSettings ref="appearanceSettings" />
+    <InputSettings ref="inputSettings" />
     <ProjectCreateEdit
       v-if="projectCreateOpen"
       @close="projectCreateOpen = false"
     />
-    <!-- <InputSettings /> -->
   </div>
 </template>
 
@@ -158,6 +162,7 @@ import {
 import 'keen-ui/dist/keen-ui.css';
 
 import AppearanceSettings from './AppearanceSettings';
+import InputSettings from './InputSettings';
 import {state} from '../main.js';
 import Project from '../Project.js';
 import ProjectCreateEdit from './ProjectCreateEdit';
@@ -188,11 +193,19 @@ export default {
   methods: {
     formatDate,
     formatTime,
+    loadProject(project) {
+      state.project = project;
+      state.header = project.name;
+      state.activeView = 'editor';
+    },
     newProject() {
       this.projectCreateOpen = true;
     },
     openAppearanceSettings() {
       this.$refs.appearanceSettings.open();
+    },
+    openInputSettings() {
+      this.$refs.inputSettings.open();
     },
     openProjects() {
       state.header = 'Projects';
@@ -205,6 +218,7 @@ export default {
   },
   components: {
     AppearanceSettings,
+    InputSettings,
     ProjectCreateEdit,
     UiButton
   }

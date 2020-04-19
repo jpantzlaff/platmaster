@@ -1,11 +1,11 @@
 import Vue from 'vue';
 
 import App from './App.vue';
-import Db from './db.js';
+import DB from './db.js';
 import Project from './Project.js';
 import ProjectTemplate from './ProjectTemplate.js';
 
-export const db = new Db();
+export const db = new DB();
 
 export const state = {
   activeView: 'welcome',
@@ -18,6 +18,30 @@ export const state = {
     timeFormat: '12-hour'
   },
   header: null,
+  input: {
+    directionFormat: 'D.M.S',
+    distanceFormat: '1234.56',
+    hotkeys: {
+      continueLine: {
+        name: 'Continue in previous direction',
+        key: 'alt+w'
+      },
+      drawLine: {
+        name: 'Activate line drawing tool',
+        key: 'alt+a'
+      },
+      repeat: {
+        name: 'Repeat previous line',
+        key: 'alt+d'
+      },
+      undo: {
+        name: 'Undo',
+        key: 'alt+z'
+      }
+      // connectWithCurve: 'alt+c'
+      // toggleSnapping: 'alt+s'
+    }
+  },
   project: null,
   projects: [],
   templates: []
@@ -26,7 +50,8 @@ export const state = {
 import {
   setAccentColor,
   setBackgroundColor,
-  setTextColor
+  setTextColor,
+  setEditorColor
 } from './viz.js';
 
 (async function() {
@@ -58,6 +83,7 @@ import {
   }
   setAccentColor(state.appearance.color2);
   setBackgroundColor(state.appearance.color1);
+  setEditorColor(state.appearance.darkEditor ? 'black' : 'white');
   setTextColor(state.appearance.colorText);
 
   new Vue({

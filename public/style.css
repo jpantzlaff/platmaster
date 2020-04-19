@@ -8,10 +8,15 @@ html, body, #app {
     padding: 0;
     width: 100%;
 }
-.ui-modal__body, .ui-fab, .ui-icon-button {
+.ui-modal__body,
+.ui-fab,
+.ui-icon-button {
     background-color: var(--color1, #ffffff) !important;
 }
-.ui-modal__header, .ui-button, .ui-select__options {
+.ui-modal__header,
+.ui-button,
+.ui-select__options,
+.ui-fileupload {
     background-color: var(--color2, #eeeeee) !important;
 }
 h1, h2, h3, h4, h5, h6, p,
@@ -34,7 +39,9 @@ h1, h2, h3, h4, h5, h6, p,
 .ui-datepicker__display,
 .ui-textbox__feedback-text,
 .ui-select__feedback-text,
-.ui-datepicker__feedback-text {
+.ui-datepicker__feedback-text,
+.ui-fileupload,
+.ui-fileupload__icon {
     color: var(--text-color, #000000) !important;
 }
 .ui-select__display-value.is-placeholder {

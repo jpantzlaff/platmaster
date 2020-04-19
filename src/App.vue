@@ -11,7 +11,7 @@
     <div id="rest">
       <Templates v-if="activeView === 'templates'" />
       <Projects v-else-if="activeView === 'projects'" />
-      <!-- <Editor v-else-if="activeView='editor'" /> -->
+      <Editor v-else-if="activeView === 'editor'" />
       <Welcome v-else />
     </div>
   </div>
@@ -65,7 +65,7 @@ export default {
     }
   },
   components: {
-    // Editor,
+    Editor,
     Projects,
     Templates,
     UiIconButton,

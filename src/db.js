@@ -1,6 +1,6 @@
 import {schema, Type} from 'lovefield';
 
-export default class Db {
+export default class DB {
   constructor() {
     this.schema = schema.create('platmaster', 1);
     this.schema

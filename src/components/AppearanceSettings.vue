@@ -103,6 +103,7 @@ import {db, state} from '../main.js';
 import {
   setAccentColor,
   setBackgroundColor,
+  setEditorColor,
   setTextColor,
   setTextScale
 } from '../viz.js';
@@ -132,7 +133,8 @@ export default {
   watch: {
     color1: (value) => setBackgroundColor(value.hex),
     color2: (value) => setAccentColor(value.hex),
-    colorText: (value) => setTextColor(value.hex)
+    colorText: (value) => setTextColor(value.hex),
+    darkEditor: (value) => setEditorColor(value ? 'black' : 'white')
   },
   components: {
     ColorPicker,

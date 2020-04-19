@@ -1,6 +1,7 @@
 <template>
   <div id="editor">
-      <EditorMap></EditorMap>
+    <DocumentAdd v-if="documentAddOpen" />
+    <!-- <EditorMap></EditorMap> -->
   </div>
 </template>
 
@@ -10,13 +11,32 @@
 
 <script>
 
-import {UiButton} from 'keen-ui';
+// import {
+//   UiButton
+// } from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
+
+import {state} from '../main.js';
+import DocumentAdd from './DocumentAdd';
+import Project from '../Project.js';
+import {
+  formatDate,
+  formatTime
+} from '../viz.js';
 
 export default {
   name: 'Editor',
+  mounted() {
+    if (this.project.documents.length < 1) {
+      this.documentAddOpen = true;
+    }
+  },
   data() {
-    return {recents};
+    return {
+      ...state,
+      documentAddOpen: false,
+      project: state.project
+    };
   },
   methods: {
     newProject() {
@@ -24,7 +44,8 @@ export default {
     }
   },
   components: {
-    UiButton
+    DocumentAdd
+    // UiButton
   }
 };
 
