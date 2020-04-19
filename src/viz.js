@@ -20,7 +20,16 @@ function degToDms(degrees) {
 
 function dmsToDeg(dms) {
   const [deg, min, sec] = dms;
-  return deg + (min * 60) + (sec * 3600);
+  if (!(deg >= 0 && deg < 360)) {
+    throw Error('Degrees outside range 0-360');
+  }
+  if (!(min >= 0 && min < 60)) {
+    throw Error('Minutes outside range 0-60');
+  }
+  if (!(sec >= 0 && sec < 60)) {
+    throw Error('Seconds outside range 0-60');
+  }
+  return deg + (min / 60) + (sec / 3600);
 }
 
 const dateFormats = {
@@ -56,6 +65,51 @@ export function formatDirection(direction) {
   const sep = (format === 'N 45-33-36 E') ? '-' : '.';
   return `${cardinal1} ${degToDms(deg).join(sep)} ${cardinal2}`;
 };
+
+export function parseDirection(string) {
+  const format = state.input.directionFormat;
+  if (format === '45.56') {
+    const number = Number(string);
+    if (Number.isFinite(number)) {
+      if (number >= 0 && number < 360) {
+        return number;
+      } else {
+        throw Error('Number outside range 0-360');
+      }
+    } else {
+      throw Error('Invalid characters in string');
+    }
+  }
+  const sep = (format === 'N 45-33-36 E') ? '-' : '.';
+  const noSpaces = string.replace(/ /g, '');
+  const dir1 = noSpaces[0].toUpperCase();
+  const dir2 = noSpaces.slice(-1).toUpperCase();
+  const dms = noSpaces.slice(1, -1).split(sep).map((x) => Number(x));
+  if (!['N', 'S'].includes(dir1)) {
+    throw Error('Invalid leading direction');
+  }
+  if (!['E', 'W'].includes(dir2)) {
+    throw Error('Invalid trailing direction');
+  }
+  if (dms.length < 3 || dms.some((x) => Number.isNaN(x))) {
+    throw Error('Invalid number');
+  }
+  if (dms[0] > 90) throw Error('Invalid number');
+  const deg = dmsToDeg(dms);
+  if (dir1 === 'N') {
+    if (dir2 === 'E') {
+      return deg;
+    } else {
+      return 360 - deg;
+    }
+  } else if (dir2 === 'E') {
+    return 180 - deg;
+  } else {
+    return 180 + deg;
+  }
+};
+
+console.log(parseDirection);
 
 const usFormatter = new Intl.NumberFormat('en-US').format;
 const deFormatter = new Intl.NumberFormat('de-DE').format;
