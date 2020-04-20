@@ -1,7 +1,13 @@
 <template>
   <div id="editor">
     <DocumentAdd v-if="documentAddOpen" />
-    <!-- <EditorMap></EditorMap> -->
+    <div
+      class="no-documents"
+      v-if="project.documents.length < 1"
+    >
+      <h3>This project doesn't have any documents added to it yet.</h3>
+    </div>
+    <!-- <EditorMap v-else></EditorMap> -->
   </div>
 </template>
 

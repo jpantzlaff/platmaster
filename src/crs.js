@@ -1,8 +1,8 @@
 import {getJson} from './util.js';
 
 export default class CRS {
-  constructor() {
-    this.proj = null;
+  constructor(proj) {
+    this.proj = proj;
   }
 
   /**

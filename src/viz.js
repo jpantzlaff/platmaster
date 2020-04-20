@@ -1,3 +1,6 @@
+import Point from 'ol/geom/Point';
+import {Fill, Stroke, Circle, Style} from 'ol/style';
+
 import {state} from './main.js';
 
 function characterCount(string, character) {
@@ -178,4 +181,53 @@ export function setEditorColor(value) {
 export function setTextColor(value) {
   document.documentElement.style.setProperty('--text-color', value);
   document.documentElement.style.setProperty('--light-text-color', value.slice(0, 7) + '77');
+};
+
+export function styleLineSegment(feature) {
+  const geometry = feature.getGeometry();
+  const styles = [
+    new Style({
+      stroke: new Stroke({
+        color: [255, 255, 255, 1],
+        width: 5
+      })
+    }),
+    new Style({
+      stroke: new Stroke({
+        color: [0, 153, 255, 1],
+        width: 3
+      })
+    })
+  ];
+  for (let fn of ['getFirstCoordinate', 'getLastCoordinate']) {
+    styles.push(
+      new Style({
+        geometry: new Point(geometry[fn]()),
+        image: new Circle({
+          radius: 6,
+          fill: new Fill({
+            color: [0, 153, 255, 1]
+          }),
+          stroke: new Stroke({
+            color: [255, 255, 255, 1],
+            width: 1.5
+          })
+        }),
+        zIndex: Infinity
+      })
+    );
+  }
+  // geometry.forEachSegment(function(start, end) {
+  //   styles.push(new Style({
+  //     geometry: new Point(end),
+  //     image: new Icon({
+  //       src: 'data/arrow.png',
+  //       anchor: [0.75, 0.5],
+  //       rotateWithView: true,
+  //       rotation: -rotation
+  //     })
+  //   }));
+  // });
+
+  return styles;
 };

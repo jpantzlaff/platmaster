@@ -182,6 +182,7 @@ export default {
         lastModified,
         name
       });
+      state.project = project;
       this.$refs.modal.close();
       state.header = name;
       state.activeView = 'editor';

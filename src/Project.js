@@ -1,5 +1,7 @@
 import {v1 as uuid} from 'uuid';
 
+import CRS from './crs.js';
+
 export default class Project {
   constructor() {
     this.id = uuid();
@@ -15,7 +17,7 @@ export default class Project {
 
   static async fromTemplate(template) {
     const project = new Project();
-    project.documentCrs = project.crs;
+    project.documentCrs = (project.crs.value) ? new CRS(project.crs.value) : null;
     project.name = template.name;
     return project;
   }
