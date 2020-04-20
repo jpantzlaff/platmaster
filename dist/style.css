@@ -1,0 +1,81 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Hind Siliguri';
+}
+html, body, #app {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.ui-modal__body,
+.ui-fab,
+.ui-icon-button {
+    background-color: var(--color1, #ffffff) !important;
+}
+.ui-modal__header,
+.ui-button,
+.ui-select__options,
+.ui-fileupload {
+    background-color: var(--color2, #eeeeee) !important;
+}
+h1, h2, h3, h4, h5, h6, p,
+.ui-toolbar__brand,
+.ui-button__icon,
+.ui-select__label-text,
+.ui-select__display-value,
+.ui-select__dropdown-button,
+.ui-datepicker__dropdown-button,
+.ui-select-option,
+.ui-textbox__input,
+.ui-textbox__label-text,
+.ui-close-button__icon,
+.ui-checkbox__label-text,
+.ui-toolbar__title,
+.ui-button__content,
+.ui-fab__icon,
+.ui-icon-button,
+.ui-datepicker__label-text,
+.ui-datepicker__display,
+.ui-textbox__feedback-text,
+.ui-select__feedback-text,
+.ui-datepicker__feedback-text,
+.ui-fileupload,
+.ui-fileupload__icon {
+    color: var(--text-color, #000000) !important;
+}
+.ui-select__display-value.is-placeholder, ::placeholder {
+    color: var(--light-text-color, #000000) !important;
+}
+.ui-select__display, .ui-textbox__input, .ui-datepicker__display {
+    border-bottom-color: var(--text-color, #000000) !important;
+}
+.ui-modal__container {
+    background-color: transparent !important;
+}
+h2 {
+    letter-spacing: 0.02em;
+}
+.ui-checkbox__checkmark-background {
+    border: none !important;
+}
+.ui-checkbox__checkmark {
+    background-color: var(--text-color, #000000) !important;
+}
+.ui-toolbar__body.has-brand-divider {
+    border-left-color: var(--light-text-color, #ffffff) !important;
+}
+.ui-fab, .ui-icon-button, .ui-button {
+    cursor: pointer;
+}
+.ui-progress-circular__indeterminate-path {
+    stroke: var(--text-color, #000000) !important;
+}
+.ui-textbox.is-invalid .ui-textbox__feedback-text,
+.ui-select.is-invalid .ui-select__feedback-text,
+.ui-datepicker.is-invalid .ui-datepicker__feedback-text {
+    font-weight: bold;
+}
+.is-disabled {
+    cursor: not-allowed !important;
+}
