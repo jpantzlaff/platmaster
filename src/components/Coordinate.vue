@@ -1,5 +1,8 @@
 <template>
-  <div class="coordinate">
+  <div
+    class="coordinate"
+    v-on:keyup.enter="confirm"
+  >
     <div class="xy">
       <p class="xy-label">X:</p>
       <UiTextbox
@@ -80,6 +83,11 @@
   .ui-select__dropdown-content {
     min-width: 320px;
   }
+  .crs .ui-select__display-value {
+    max-height: 2em;
+    overflow: hidden;
+    word-break: break-all;
+  }
 </style>
 
 <script>
@@ -96,6 +104,7 @@ import CRS from '../crs.js';
 
 export default {
   name: 'Coordinate',
+  props: ['identity'],
   computed: {
     valid() {
       return Boolean(this.xValid && this.yValid && this.crs.value);
@@ -119,11 +128,15 @@ export default {
   },
   methods: {
     confirm() {
-
+      if (this.valid) {
+        this.$emit('complete', {
+          crs: this.crs.value,
+          identity: this.identity,
+          x: Number(this.x),
+          y: Number(this.y)
+        });
+      }
     },
-    // newProject() {
-    //   this.$emit('newProject');
-    // },
     async crsQuery(term) {
       this.crsLoading = true;
       CRS.queryProj(term)

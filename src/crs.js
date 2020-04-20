@@ -1,8 +1,64 @@
-import {getJson} from './util.js';
+import bearing from '@turf/bearing';
+import proj4 from 'proj4';
+
+import {
+  directionToAngle,
+  getJson
+} from './util.js';
 
 export default class CRS {
-  constructor(proj) {
-    this.proj = proj;
+  constructor(config) {
+    this.accuracy = config.accuracy;
+    this.area = config.area;
+    this.code = config.code;
+    this.kind = config.kind;
+    this.name = config.name;
+    this.offset = 0;
+    this.proj4 = config.proj4;
+    this.unit = config.unit;
+  }
+
+  destination(source, direction, distance) {
+    const [x, y] = source;
+    const angle = directionToAngle(direction);
+    return [
+      x + (distance * Math.cos(angle)),
+      y + (distance * Math.sin(angle))
+    ];
+  }
+
+  fromWgs84(coords) {
+    return proj4(this.proj4, coords);
+  }
+  
+  gridConvergence(x, y) {
+    if (this.kind === 'CRS-GEOGCRS') return 0;
+    return bearing(
+      this.toWgs84([x, y]),
+      this.toWgs84([x, y + 10])
+    );
+  }
+
+  // async initializeConvergence(lat, lon, magnetic = false, date = null) {
+  //   if (Number.isFinite(this.convergence)) return;
+  //   if (magnetic) {
+  //     this.convergence = await CRS.getMagDecl([lon, lat], date);
+  //   } else {
+
+  //   }
+  // }
+
+  project(toCrs, coords) {
+    return proj4(this.proj4, toCrs.proj4, coords);
+  }
+
+  setUnit(value) {
+    this.proj4 = this.proj4.replace(/units=\w+ ?/, `units=${value} `);
+    this.unit = value;
+  }
+
+  toWgs84(coords) {
+    return proj4(this.proj4).inverse(coords);
   }
 
   /**
@@ -42,6 +98,12 @@ export default class CRS {
       throw Error('A magnetic declination could not be calculated.');
     }
   }
+
+  static newAeqd(lat, lon, unit) {
+    const crs = new CRS();
+    crs.proj4 = `+proj=aeqd +lat_0=${lat} +lon_0=${lon} +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=${unit} +no_defs`;
+    return crs;
+  }
   
   /**
    * @typedef {Object} ProjQuery
@@ -64,14 +126,17 @@ export default class CRS {
       q: query
     });
     return (Array.isArray(response?.results))
-      ? response.results.map((r) => ({
-        accuracy: r.accuracy,
-        area: r.area,
-        code: r.code,
-        name: r.name,
-        proj4: r.proj4,
-        unit: r.unit
-      }))
+      ? response.results.map((r) => {
+        return new CRS({
+          accuracy: r.accuracy,
+          area: r.area,
+          code: r.code,
+          kind: r.kind,
+          name: r.name,
+          proj4: r.proj4,
+          unit: r.unit
+        });
+      })
       : [];
   }
 };

@@ -8,9 +8,9 @@ export default class ProjectTemplate {
     this.crs = {};
     this.distanceBasisType = 'Ground';
     this.distanceUnits = [
-      {label: 'Meter', value: 1},
-      {label: 'Foot (International)', value: 0.3048},
-      {label: 'Foot (US)', value: 0.3048006096012192}
+      {label: 'Meter', value: 'm'},
+      {label: 'Foot (International)', value: 'ft'},
+      {label: 'Foot (US)', value: 'us-ft'}
     ];
     this.distanceUnit = this.distanceUnits[0];
     this.lastUsed = new Date();

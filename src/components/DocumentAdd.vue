@@ -38,20 +38,19 @@
     </div>
     <Coordinate
       ref="tie1"
+      identity="start"
+      @complete="setTie"
     />
     <Coordinate
+      v-if="project.bearingBasis === 'None'"
       ref="tie2"
+      identity="end"
+      @complete="setTie"
     />
-    <!-- <UiButton
-      class="continue"
-      v-if="!edit && isValid"
-      size="large"
-      icon="library_add"
-      v-on:click="createProject"
-      :loading="continuing"
-    >
-      Create
-    </UiButton> -->
+    <DirectionDistance
+      ref="dd"
+      @complete="setDD"
+    />
   </UiModal>
 </template>
 
@@ -133,6 +132,7 @@ import View from 'ol/View';
 
 import Coordinate from './Coordinate';
 import CRS from '../crs.js';
+import DirectionDistance from './DirectionDistance';
 import Document from '../Document.js';
 import {db, state} from '../main.js';
 import Overlay from 'ol/Overlay';
@@ -153,13 +153,13 @@ export default {
   computed: {
     georefInstruction() {
       if (this.stage === 0) {
-        return `Draw a line that is coincident with one of the lines on the document. The line must start ${this.project.documentCrs ? 'at a point' : 'and end at points'} with known geographic coordinates.`;
+        return `Draw a line that is coincident with one of the lines on the document. The line must start ${this.project.bearingBasis !== 'None' ? 'at a point' : 'and end at points'} with known geographic coordinates.`;
       } else if (this.stage === 1) {
-        return `Provide the geographic coordinates at the ${this.project.documentCrs ? 'start' : 'start and end'} of the line.`;
+        return 'Provide the geographic coordinates at the start of the line.';
       } else if (this.stage === 2) {
         return 'Provide the direction and distance of the line, as indicated on the document.';
       } else {
-        return 'Press the continue button.';
+        return 'Provide the geographic coordinates at the end of the line.';
       }
       // If bearing basis is CRS, true north, or magnetic north:
       // draw a line, collecting the start point XY,
@@ -173,37 +173,32 @@ export default {
     return {
       document: null,
       draw: null,
+      end: null,
       file: null,
-      image: null,
       line: null,
-      lineComplete: false,
+      midpoint: null,
       objectUrl: null,
       ol: null,
       project: state.project,
-      stage: 0
+      stage: 0,
+      start: null
     };
   },
   methods: {
     completeDrawing(event) {
-      const geometry = event.feature.getGeometry();
+      this.line = event.feature.getGeometry();
+      this.start = this.line.getFirstCoordinate();
+      this.midpoint = this.line.getCoordinateAt(0.5);
+      this.end = this.line.getLastCoordinate();
       this.ol.removeInteraction(this.draw);
       this.stage = 1;
       this.ol.addOverlay(
         new Overlay({
           element: this.$refs.tie1.$el,
           offset: [20, -40],
-          position: geometry.getFirstCoordinate()
+          position: this.start
         })
       );
-      if (!this.project.documentCrs) {
-        this.ol.addOverlay(
-          new Overlay({
-            element: this.$refs.tie2.$el,
-            offset: [20, -40],
-            position: geometry.getLastCoordinate()
-          })
-        );
-      }
     },
     close() {
       this.$emit('close');
@@ -214,10 +209,10 @@ export default {
       this.file = file;
       this.document.buffer = await file.arrayBuffer();
       this.objectUrl = URL.createObjectURL(file);
-      this.image = new Image();
-      this.image.src = this.objectUrl;
-      await this.image.decode();
-      const {height, width} = this.image;
+      const image = new Image();
+      image.src = this.objectUrl;
+      await image.decode();
+      const {height, width} = image;
       const bounds = [0, 0, width, height];
       const docProj = new Projection({
         code: 'doc',
@@ -273,13 +268,66 @@ export default {
       });
       this.ol.addInteraction(this.draw);
       this.draw.on('drawend', this.completeDrawing);
+    },
+    setDD(data) {
+      const {direction, distance} = data;
+      if (this.project.bearingBasis === 'None') {
+        this.ol.addOverlay(
+          new Overlay({
+            element: this.$refs.tie2.$el,
+            offset: [20, -40],
+            position: this.end
+          })
+        );
+      } else {
+        const dest = this.project.crs.destination(this.document.tie1.document, direction, distance);
+        this.document.tie2 = {
+          pixel: this.end,
+          source: dest,
+          wgs84: this.project.crs.toWgs84(dest)
+        };
+      }
+    },
+    setTie(data) {
+      console.log(data);
+      const {crs, identity, x, y} = data;
+      const target = ('identity' === 'start') ? this.document.tie1 : this.document.tie2;
+      target.document = (this.project.bearingBasis === 'None' || crs.code === this.project.documentCrs.code)
+        ? [x, y]
+        : crs.project(this.project.documentCrs, [x, y]);
+      target.pixel = this[identity];
+      target.wgs84 = crs.toWgs84([x, y]);
+      console.log(this.document);
     }
   },
   watch: {
+    'document.tie1': async function(value) {
+      if (!value.wgs84.length) return;
+      if (!this.project.crs) {
+        const [lon, lat] = value.wgs84;
+        this.project.crs = CRS.newAeqd(lat, lon, this.project.unit);
+        if (this.project.bearingBasis === 'Magnetic north') {
+          this.project.crs.offset = await CRS.getMagDecl([lon, lat], this.project.bearingBasisDate);
+        } else if (this.project.bearingBasis === 'Grid') {
+          this.project.crs.offset = this.project.documentCrs.gridConvergence(...value.source);
+        }
+      }
+      this.stage = 2;
+      this.ol.addOverlay(
+        new Overlay({
+          element: this.$refs.dd.$el,
+          offset: [20, -40],
+          position: this.midpoint
+        })
+      );
+    },
+    'document.tie2': function(value) {
+      if (!value.wgs84.length) return;
+    }
   },
   components: {
     Coordinate,
-    UiButton,
+    DirectionDistance,
     UiFileupload,
     UiModal
   }

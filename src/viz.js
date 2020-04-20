@@ -2,38 +2,11 @@ import Point from 'ol/geom/Point';
 import {Fill, Stroke, Circle, Style} from 'ol/style';
 
 import {state} from './main.js';
-
-function characterCount(string, character) {
-  let count = 0;
-  for (let char of string) {
-    if (char === character) count++;
-  }
-  return count;
-}
-
-function degToDms(degrees) {
-  let remainder = degrees;
-  const deg = Math.floor(degrees);
-  remainder -= deg;
-  const min = Math.floor(remainder * 60);
-  remainder -= (min / 60);
-  const sec = Math.round(remainder * 3600);
-  return [deg, min, sec];
-}
-
-function dmsToDeg(dms) {
-  const [deg, min, sec] = dms;
-  if (!(deg >= 0 && deg < 360)) {
-    throw Error('Degrees outside range 0-360');
-  }
-  if (!(min >= 0 && min < 60)) {
-    throw Error('Minutes outside range 0-60');
-  }
-  if (!(sec >= 0 && sec < 60)) {
-    throw Error('Seconds outside range 0-60');
-  }
-  return deg + (min / 60) + (sec / 3600);
-}
+import {
+  characterCount,
+  degToDms,
+  dmsToDeg
+} from './util.js';
 
 const dateFormats = {
   'YYYY-MM-DD': 'en-CA',
@@ -217,17 +190,5 @@ export function styleLineSegment(feature) {
       })
     );
   }
-  // geometry.forEachSegment(function(start, end) {
-  //   styles.push(new Style({
-  //     geometry: new Point(end),
-  //     image: new Icon({
-  //       src: 'data/arrow.png',
-  //       anchor: [0.75, 0.5],
-  //       rotateWithView: true,
-  //       rotation: -rotation
-  //     })
-  //   }));
-  // });
-
   return styles;
 };
