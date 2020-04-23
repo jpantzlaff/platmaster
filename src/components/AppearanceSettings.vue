@@ -38,13 +38,6 @@
             :options="['YYYY-MM-DD', 'MM/DD/YYYY', 'DD/MM/YYYY']"
           />
         </div>
-        <div class="setting">
-          <UiSelect
-            v-model="timeFormat"
-            label="Time format"
-            :options="['12-hour', '24-hour']"
-          />
-        </div>
       </div>
     </div>
   </UiModal>
@@ -99,13 +92,15 @@ import {
 import 'keen-ui/dist/keen-ui.css';
 import {Chrome as ColorPicker} from 'vue-color';
 
-import {db, state} from '../main.js';
+import {
+  saveSettings as save,
+  state
+} from '../main.js';
 import {
   setAccentColor,
   setBackgroundColor,
   setEditorColor,
-  setTextColor,
-  setTextScale
+  setTextColor
 } from '../viz.js';
 
 export default {
@@ -117,18 +112,7 @@ export default {
     open() {
       this.$refs.modal.open();
     },
-    save() {
-      const {color1, color2, colorText, darkEditor, dateFormat, timeFormat} = state.appearance;
-      db.insert('settings', {
-        id: 1,
-        color1: (typeof color1 === 'string') ? color1 : color1.hex,
-        color2: (typeof color2 === 'string') ? color2 : color2.hex,
-        colorText: (typeof colorText === 'string') ? colorText : colorText.hex,
-        darkEditor,
-        dateFormat,
-        timeFormat
-      }, true);
-    }
+    save
   },
   watch: {
     color1: (value) => setBackgroundColor(value.hex),

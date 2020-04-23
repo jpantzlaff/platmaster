@@ -1,9 +1,9 @@
 <template>
   <div id="editor">
-    <DocumentAdd v-if="documentAddOpen" />
+    <div v-if="documentAddOpen" />
     <div
       class="no-documents"
-      v-if="project.documents.length < 1"
+      v-if="pages.length < 1"
     >
       <h3>This project doesn't have any documents added to it yet.</h3>
     </div>
@@ -23,11 +23,10 @@
 import 'keen-ui/dist/keen-ui.css';
 
 import {state} from '../main.js';
-import DocumentAdd from './DocumentAdd';
-import Project from '../Project.js';
+// import DocumentAdd from './DocumentAdd';
+// import Project from '../Project.js';
 import {
-  formatDate,
-  formatTime
+  formatDate
 } from '../viz.js';
 
 export default {
@@ -38,11 +37,7 @@ export default {
     }
   },
   data() {
-    return {
-      ...state,
-      documentAddOpen: false,
-      project: state.project
-    };
+    return state;
   },
   methods: {
     newProject() {
@@ -50,7 +45,6 @@ export default {
     }
   },
   components: {
-    DocumentAdd
     // UiButton
   }
 };

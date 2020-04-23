@@ -28,43 +28,10 @@
         </div>
       </div>
     </div>
-    <div class="settings-section">
-      <h2 class="settings-section-title">Key bindings</h2>
-      <div class="key-bindings">
-        <template v-for="(hotkey, action) in hotkeys">
-          <div
-            :key="action"
-            class="key-binding"
-          >
-            <p>{{hotkey.name}}</p>
-            <UiTextbox
-              v-model="hotkey.display"
-              class="key-combo"
-              :disabled="true"
-            />
-          </div>
-        </template>
-      </div>
-    </div>
   </UiModal>
 </template>
 
 <style scoped>
-  .key-binding {
-    align-items: center;
-    display: flex;
-    flex: 0 1 50%;
-    justify-content: space-between;
-    padding: 0 2rem;
-  }
-  .key-bindings {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 -2rem;
-  }
-  .key-combo {
-    flex: 0 0 6em;
-  }
   .settings-section:not(:last-child) {
     margin-bottom: 2.5rem;
   }
@@ -84,59 +51,35 @@
   #input-settings .ui-select__feedback-text {
     color: var(--light-text-color, #000000) !important;
   }
-  #input-settings .ui-modal__body {
-    overflow-x: hidden;
-  }
-  .key-binding .ui-textbox__input {
-    text-align: center;
-  }
 </style>
 
 <script>
 
 import {
   UiModal,
-  UiSelect,
-  UiTextbox
+  UiSelect
 } from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
 
-import {db, state} from '../main.js';
 import {
-  setAccentColor,
-  setBackgroundColor,
-  setEditorColor,
-  setTextColor,
-  setTextScale
-} from '../viz.js';
+  saveSettings as save,
+  state
+} from '../main.js';
 
 export default {
   name: 'InputSettings',
   data() {
-    return state.input;
+    return state.settings;
   },
   methods: {
     open() {
       this.$refs.modal.open();
     },
-    save() {
-      return;
-      const {color1, color2, colorText, darkEditor, dateFormat, timeFormat} = state.appearance;
-      db.insert('settings', {
-        id: 1,
-        color1: (typeof color1 === 'string') ? color1 : color1.hex,
-        color2: (typeof color2 === 'string') ? color2 : color2.hex,
-        colorText: (typeof colorText === 'string') ? colorText : colorText.hex,
-        darkEditor,
-        dateFormat,
-        timeFormat
-      }, true);
-    }
+    save
   },
   components: {
     UiModal,
-    UiSelect,
-    UiTextbox
+    UiSelect
   }
 };
 

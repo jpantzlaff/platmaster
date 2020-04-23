@@ -4,19 +4,6 @@ export default class DB {
   constructor() {
     this.schema = schema.create('platmaster', 1);
     this.schema
-      .createTable('history')
-      .addColumn('id', Type.INTEGER)
-      .addColumn('projectId', Type.STRING)
-      .addColumn('type', Type.STRING)
-      .addColumn('featureId', Type.STRING)
-      .addPrimaryKey(['id'], true);
-    this.schema
-      .createTable('projects')
-      .addColumn('id', Type.STRING)
-      .addColumn('lastModified', Type.DATE_TIME)
-      .addColumn('name', Type.STRING)
-      .addPrimaryKey(['id'], false);
-    this.schema
       .createTable('settings')
       .addColumn('id', Type.INTEGER)
       .addColumn('color1', Type.STRING)
@@ -24,20 +11,9 @@ export default class DB {
       .addColumn('colorText', Type.STRING)
       .addColumn('darkEditor', Type.BOOLEAN)
       .addColumn('dateFormat', Type.STRING)
-      .addColumn('timeFormat', Type.STRING)
+      .addColumn('directionFormat', Type.STRING)
+      .addColumn('distanceFormat', Type.STRING)
       .addPrimaryKey(['id'], true);
-    this.schema
-      .createTable('templates')
-      .addColumn('id', Type.STRING)
-      .addColumn('bearingBasisDate', Type.DATE_TIME)
-      .addColumn('bearingBasisType', Type.STRING)
-      .addColumn('crs', Type.OBJECT)
-      .addColumn('distanceBasisType', Type.STRING)
-      .addColumn('distanceUnit', Type.OBJECT)
-      .addColumn('lastUsed', Type.DATE_TIME)
-      .addColumn('name', Type.STRING)
-      .addPrimaryKey(['id'], false)
-      .addNullable(['crs', 'bearingBasisDate']);
   }
 
   async delete(tableName, property, equals) {
@@ -68,9 +44,6 @@ export default class DB {
     } else {
       return query.exec();
     }
-    // for (let [column, rel, value] of tests) {
-    //   query = query.where(table[column][rel](value));
-    // }
   }
 
   async update(tableName, property, equals, values) {

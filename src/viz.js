@@ -1,5 +1,5 @@
-import Point from 'ol/geom/Point';
-import {Fill, Stroke, Circle, Style} from 'ol/style';
+// import Point from 'ol/geom/Point';
+// import {Fill, Stroke, Circle, Style} from 'ol/style';
 
 import {state} from './main.js';
 import {
@@ -14,7 +14,7 @@ const dateFormats = {
   'DD/MM/YYYY': 'en-GB'
 };
 export function formatDate(date) {
-  return date.toLocaleDateString(dateFormats[state.appearance.dateFormat]);
+  return date.toLocaleDateString(dateFormats[state.settings.dateFormat]);
 };
 
 export function formatDirection(direction) {
@@ -85,8 +85,6 @@ export function parseDirection(string) {
   }
 };
 
-console.log(parseDirection);
-
 const usFormatter = new Intl.NumberFormat('en-US').format;
 const deFormatter = new Intl.NumberFormat('de-DE').format;
 const distanceFormats = {
@@ -101,16 +99,16 @@ export function formatDistance(distance) {
   return distanceFormats[state.input.distanceFormat](distance);
 };
 
-const timeFormats = {
-  '12-hour': 'en-US',
-  '24-hour': 'en-GB'
-};
-export function formatTime(date) {
-  return date.toLocaleTimeString(
-    timeFormats[state.appearance.timeFormat],
-    {timeStyle: 'short'}
-  );
-};
+// const timeFormats = {
+//   '12-hour': 'en-US',
+//   '24-hour': 'en-GB'
+// };
+// export function formatTime(date) {
+//   return date.toLocaleTimeString(
+//     timeFormats[state.appearance.timeFormat],
+//     {timeStyle: 'short'}
+//   );
+// };
 
 export function getRootFontSize() {
   return Number(getComputedStyle(document.body).getPropertyValue('font-size').slice(0, -2));
@@ -156,39 +154,39 @@ export function setTextColor(value) {
   document.documentElement.style.setProperty('--light-text-color', value.slice(0, 7) + '77');
 };
 
-export function styleLineSegment(feature) {
-  const geometry = feature.getGeometry();
-  const styles = [
-    new Style({
-      stroke: new Stroke({
-        color: [255, 255, 255, 1],
-        width: 5
-      })
-    }),
-    new Style({
-      stroke: new Stroke({
-        color: [0, 153, 255, 1],
-        width: 3
-      })
-    })
-  ];
-  for (let fn of ['getFirstCoordinate', 'getLastCoordinate']) {
-    styles.push(
-      new Style({
-        geometry: new Point(geometry[fn]()),
-        image: new Circle({
-          radius: 6,
-          fill: new Fill({
-            color: [0, 153, 255, 1]
-          }),
-          stroke: new Stroke({
-            color: [255, 255, 255, 1],
-            width: 1.5
-          })
-        }),
-        zIndex: Infinity
-      })
-    );
-  }
-  return styles;
-};
+// export function styleLineSegment(feature) {
+//   const geometry = feature.getGeometry();
+//   const styles = [
+//     new Style({
+//       stroke: new Stroke({
+//         color: [255, 255, 255, 1],
+//         width: 5
+//       })
+//     }),
+//     new Style({
+//       stroke: new Stroke({
+//         color: [0, 153, 255, 1],
+//         width: 3
+//       })
+//     })
+//   ];
+//   for (let fn of ['getFirstCoordinate', 'getLastCoordinate']) {
+//     styles.push(
+//       new Style({
+//         geometry: new Point(geometry[fn]()),
+//         image: new Circle({
+//           radius: 6,
+//           fill: new Fill({
+//             color: [0, 153, 255, 1]
+//           }),
+//           stroke: new Stroke({
+//             color: [255, 255, 255, 1],
+//             width: 1.5
+//           })
+//         }),
+//         zIndex: Infinity
+//       })
+//     );
+//   }
+//   return styles;
+// };

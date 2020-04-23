@@ -1,19 +1,27 @@
 <template>
   <div id="app">
-    <UiToolbar id="header" brand="PlatMaster" :title="header" removeNavIcon />
-    <UiIconButton
-      id="close"
-      icon="close"
-      size="small"
-      v-if="activeView !== 'welcome'"
-      v-on:click="home"
-    />
-    <div id="rest">
-      <Templates v-if="activeView === 'templates'" />
-      <Projects v-else-if="activeView === 'projects'" />
-      <Editor v-else-if="activeView === 'editor'" />
-      <Welcome v-else />
+    <UiToolbar class="header" brand="PlatMaster" :title="header" removeNavIcon />
+    <div class="settings">
+      <UiIconButton
+        class="setting-button"
+        icon="keyboard"
+        size="small"
+        tooltip="Appearance settings"
+        v-on:click="openAppearanceSettings"
+      />
+      <UiIconButton
+        class="setting-button"
+        icon="color_lens"
+        size="small"
+        tooltip="Input settings"
+        v-on:click="openInputSettings"
+      />
     </div>
+    <div class="rest">
+      <Editor />
+    </div>
+    <AppearanceSettings ref="appearanceSettings" />
+    <InputSettings ref="inputSettings" />
   </div>
 </template>
 
@@ -22,18 +30,12 @@
     display: flex;
     flex-direction: column;
   }
-  #close {
-    background-color: transparent !important;
-    position: absolute;
-    right: 1rem;
-    top: 0.75rem;
-  }
-  #header {
+  .header {
     background-color: var(--color2, #ffffff);
     flex: 0 0 56px;
     padding-left: 4rem;
   }
-  #rest {
+  .rest {
     background-color: var(--color1, #ffffff);
     flex: 1 1 auto;
     height: 0;
@@ -47,10 +49,9 @@ import {
   UiToolbar
 } from 'keen-ui';
 
+import AppearanceSettings from './components/AppearanceSettings.vue';
 import Editor from './components/Editor.vue';
-import Projects from './components/Projects.vue';
-import Templates from './components/Templates.vue';
-import Welcome from './components/Welcome.vue';
+import InputSettings from './components/InputSettings.vue';
 import {state} from './main.js';
 
 export default {
@@ -59,18 +60,19 @@ export default {
     return state;
   },
   methods: {
-    home() {
-      state.header = null;
-      state.activeView = 'welcome';
+    openAppearanceSettings() {
+      this.$refs.appearanceSettings.open();
+    },
+    openInputSettings() {
+      this.$refs.inputSettings.open();
     }
   },
   components: {
+    AppearanceSettings,
     Editor,
-    Projects,
-    Templates,
+    InputSettings,
     UiIconButton,
-    UiToolbar,
-    Welcome
+    UiToolbar
   }
 };
 
