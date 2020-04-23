@@ -57,6 +57,26 @@ export async function getJson(url, params) {
   }
 };
 
+export async function queryProj(query) {
+  const response = await getJson('https://epsg.io', {
+    format: 'json',
+    q: query
+  });
+  return (Array.isArray(response?.results))
+    ? response.results.map((r) => {
+      return new CRS({
+        accuracy: r.accuracy,
+        area: r.area,
+        code: r.code,
+        kind: r.kind,
+        name: r.name,
+        proj4: r.proj4,
+        unit: r.unit
+      });
+    })
+    : [];
+};
+
 export function radToDeg(rad) {
   return 180 * (rad / Math.PI);
 };

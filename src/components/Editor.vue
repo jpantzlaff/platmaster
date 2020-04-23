@@ -1,12 +1,5 @@
 <template>
   <div id="editor">
-    <div v-if="documentAddOpen" />
-    <div
-      class="no-documents"
-      v-if="pages.length < 1"
-    >
-      <h3>This project doesn't have any documents added to it yet.</h3>
-    </div>
     <!-- <EditorMap v-else></EditorMap> -->
   </div>
 </template>
@@ -32,8 +25,8 @@ import {
 export default {
   name: 'Editor',
   mounted() {
-    if (this.project.documents.length < 1) {
-      this.documentAddOpen = true;
+    if (this.pages.length < 1) {
+      return;
     }
   },
   data() {

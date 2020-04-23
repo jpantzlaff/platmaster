@@ -65,8 +65,8 @@ h2 {
 .ui-toolbar__body.has-brand-divider {
     border-left-color: var(--light-text-color, #ffffff) !important;
 }
-.ui-fab, .ui-icon-button, .ui-button {
-    cursor: pointer;
+.ui-fab, .ui-icon-button, .ui-button, .ui-close-button {
+    cursor: pointer !important;
 }
 .ui-progress-circular__indeterminate-path {
     stroke: var(--text-color, #000000) !important;

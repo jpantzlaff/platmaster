@@ -29,7 +29,7 @@
       />
     </div>
     <div class="settings-section">
-      <h2 class="settings-section-title">Dates and times</h2>
+      <h2 class="settings-section-title">Dates</h2>
       <div class="settings-group">
         <div class="setting">
           <UiSelect
@@ -106,7 +106,7 @@ import {
 export default {
   name: 'AppearanceSettings',
   data() {
-    return state.appearance;
+    return state.settings;
   },
   methods: {
     open() {

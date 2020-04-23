@@ -7,7 +7,13 @@ import DB from './db.js';
 export const db = new DB();
 
 export const state = {
-  header: null,
+  form: {
+    bearingBasisDate: null,
+    bearingBasisType: 'True/geodetic north',
+    crs: {},
+    distanceUnit: {label: 'Meter', value: 'm'},
+    name: ''
+  },
   pages: [],
   settings: {
     color1: '#283354',
