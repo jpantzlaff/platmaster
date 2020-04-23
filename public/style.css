@@ -41,10 +41,12 @@ h1, h2, h3, h4, h5, h6, p,
 .ui-select__feedback-text,
 .ui-datepicker__feedback-text,
 .ui-fileupload,
-.ui-fileupload__icon {
+.ui-fileupload__icon,
+.ui-select__no-results {
     color: var(--text-color, #000000) !important;
 }
-.ui-select__display-value.is-placeholder, ::placeholder {
+.ui-select__display-value.is-placeholder,
+::placeholder {
     color: var(--light-text-color, #000000) !important;
 }
 .ui-select__display, .ui-textbox__input, .ui-datepicker__display {
@@ -78,4 +80,7 @@ h2 {
 }
 .is-disabled {
     cursor: not-allowed !important;
+}
+.ui-fileupload__display-text {
+    text-transform: uppercase !important;
 }

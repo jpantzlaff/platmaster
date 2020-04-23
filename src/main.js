@@ -12,7 +12,9 @@ export const state = {
     bearingBasisType: 'True/geodetic north',
     crs: {},
     distanceUnit: {label: 'Meter', value: 'm'},
-    name: ''
+    files: [],
+    name: 'Untitled',
+    previewUrl: null
   },
   pages: [],
   settings: {

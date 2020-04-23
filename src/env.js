@@ -10,3 +10,9 @@ export const distanceUnits = [
   {label: 'Yard (India)', value: 'ind-yd'},
   {label: 'Yard (US)', value: 'us-yd'}
 ];
+
+const magDeclinationYears = [];
+for (let year = 1590, max = 2024; year < max; year++) {
+  magDeclinationYears.push(year);
+}
+export {magDeclinationYears};

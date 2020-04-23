@@ -1,9 +1,9 @@
 <template>
   <UiModal
-    id="appearance-settings"
     ref="modal"
     size="large"
-    title="Appearance"
+    title="Settings"
+    transition="fade"
     dismissOn="close-button esc"
     @close="save"
   >
@@ -40,16 +40,40 @@
         </div>
       </div>
     </div>
+    <div class="settings-section input-settings">
+      <h2 class="settings-section-title">Direction and distance</h2>
+      <div class="settings-group">
+        <div class="setting">
+          <UiSelect
+            v-model="directionFormat"
+            label="Direction format"
+            :options="['45.56', 'N 45-33-36 E', 'N 45.33.36 E']"
+            help="When inputting, letters are case insensitive and spaces are ignored"
+          />
+        </div>
+        <div class="setting">
+          <UiSelect
+            v-model="distanceFormat"
+            label="Distance format"
+            :options="['1234.56', '1234,56', '1,234.56', '1.234,56', '1 234.56', '1 234,56']"
+            help="When inputting, spaces are ignored"
+          />
+        </div>
+      </div>
+    </div>
   </UiModal>
 </template>
 
 <style scoped>
+  .input-settings .setting {
+    margin-bottom: 0;
+  }
   .settings-group {
     display: flex;
     margin: -1em;
   }
   .settings-section:not(:last-child) {
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
   }
   .settings-section-title {
     margin-top: 0;
@@ -69,6 +93,12 @@
   }
 </style>
 <style>
+  .form > div {
+    margin-bottom: 1.5rem;
+  }
+  .input-settings .ui-select__feedback-text {
+    color: var(--light-text-color, #000000) !important;
+  }
   .vc-chrome-toggle-btn {
     display: none;
   }
@@ -104,7 +134,7 @@ import {
 } from '../viz.js';
 
 export default {
-  name: 'AppearanceSettings',
+  name: 'Settings',
   data() {
     return state.settings;
   },

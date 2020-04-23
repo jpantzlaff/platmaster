@@ -1,28 +1,20 @@
 <template>
   <div id="app">
-    <UiToolbar class="header" brand="PlatMaster" :title="form.name || 'New document'" removeNavIcon />
+    <UiToolbar class="header" brand="PlatMaster" :title="title" removeNavIcon />
     <div class="settings">
       <UiIconButton
         class="setting-button"
-        icon="keyboard"
+        icon="settings"
         size="normal"
-        tooltip="Appearance settings"
-        v-on:click="openAppearanceSettings"
-      />
-      <UiIconButton
-        class="setting-button"
-        icon="color_lens"
-        size="normal"
-        tooltip="Input settings"
-        v-on:click="openInputSettings"
+        tooltip="Application settings"
+        v-on:click="openSettings"
       />
     </div>
     <div class="rest">
       <Editor v-if="false" />
       <DocumentForm v-else />
     </div>
-    <AppearanceSettings ref="appearanceSettings" />
-    <InputSettings ref="inputSettings" />
+    <Settings ref="settings" />
   </div>
 </template>
 
@@ -61,30 +53,30 @@ import {
   UiToolbar
 } from 'keen-ui';
 
-import AppearanceSettings from './components/AppearanceSettings.vue';
 import DocumentForm from './components/DocumentForm.vue';
 import Editor from './components/Editor.vue';
-import InputSettings from './components/InputSettings.vue';
+import Settings from './components/Settings.vue';
 import {state} from './main.js';
 
 export default {
   name: 'App',
+  computed: {
+    title() {
+      return 'New document' + ((state.form.name) ? (': ' + state.form.name) : '');
+    }
+  },
   data() {
     return state;
   },
   methods: {
-    openAppearanceSettings() {
-      this.$refs.appearanceSettings.open();
-    },
-    openInputSettings() {
-      this.$refs.inputSettings.open();
+    openSettings() {
+      this.$refs.settings.open();
     }
   },
   components: {
-    AppearanceSettings,
     DocumentForm,
     Editor,
-    InputSettings,
+    Settings,
     UiIconButton,
     UiToolbar
   }

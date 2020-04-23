@@ -64,7 +64,7 @@ export async function queryProj(query) {
   });
   return (Array.isArray(response?.results))
     ? response.results.map((r) => {
-      return new CRS({
+      return {
         accuracy: r.accuracy,
         area: r.area,
         code: r.code,
@@ -72,7 +72,7 @@ export async function queryProj(query) {
         name: r.name,
         proj4: r.proj4,
         unit: r.unit
-      });
+      };
     })
     : [];
 };
