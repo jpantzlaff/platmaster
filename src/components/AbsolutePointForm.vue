@@ -1,50 +1,77 @@
 <template>
   <div class="point-form">
-    <div class="x-row">
-      <p>X:</p>
+    <div class="xy">
       <UiTextbox
         v-model="point.x"
         class="x"
+        placeholder="X"
         type="number"
+        error="Provide an X."
+        :invalid="!xValid"
       />
-    </div>
-    <div class="y-row">
-      <p>Y:</p>
+      <p class="sep">,</p>
       <UiTextbox
         v-model="point.y"
         class="y"
+        placeholder="Y"
         type="number"
+        error="Provide a Y."
+        :invalid="!yValid"
       />
     </div>
     <UiSelect
-      v-if="form.bearingBasisType === 'Grid'"
       v-model="point.crs"
-      label="Coordinate reference system of the grid"
-      placeholder="Search a projection name, location, or SRID code"
+      placeholder="Search projection/SRID"
       :disableFilter="true"
       :hasSearch="true"
       :loading="crsLoading"
       :no-results="crsNoResult"
       :options="crsOptions"
       @query-change="crsQuery"
-      error="A CRS must be specified."
+      error="Specify a coordinate system."
       :invalid="!crsValid"
     />
-    <UiButton
-      class="submit"
-      v-if="isValid"
-      size="large"
-      icon="check"
-      v-on:click="submitForm"
-    >
-      Confirm
-    </UiButton>
+    <div class="bottom">
+      <p class="descriptor">New Point</p>
+      <UiButton
+        class="submit"
+        v-if="isValid"
+        size="normal"
+        icon="check"
+        v-on:click="submitForm"
+      >
+        Confirm
+      </UiButton>
+    </div>
   </div>
 </template>
 
 <style scoped>
+  .bottom {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+  .descriptor {
+    font-weight: bold;
+    margin: 0;
+  }
   .point-form {
-
+    background-color: var(--color1);
+    border-radius: 0.125rem;
+    padding: 0.5rem 0.75rem;
+  }
+  .sep {
+    margin: 0.7em 0 0 0;
+  }
+  .xy {
+    display: flex;
+  }
+  .x {
+    padding-right: 0.25rem;
+  }
+  .y {
+    padding-left: 0.25rem;
   }
 </style>
 
@@ -64,12 +91,16 @@ export default {
   name: 'AbsolutePointForm',
   computed: {
     crsValid() {
-      if (this.form.bearingBasisType === 'Grid') {
-        const keys = Object.keys(this.form.crs);
-        return (keys.includes('label') && keys.includes('value'));
-      } else {
-        return true;
-      }
+      return Boolean(this.point.crs.value);
+    },
+    isValid() {
+      return (this.crsValid && this.xValid && this.yValid);
+    },
+    xValid() {
+      return Boolean(Number(this.point.x));
+    },
+    yValid() {
+      return Boolean(Number(this.point.y));
     }
   },
   data() {
@@ -97,17 +128,14 @@ export default {
         .catch(() => this.crsNoResult = true)
         .finally(() => this.crsLoading = false);
     },
-    formatDate,
     submitForm() {
-      state.pages = Array.from(this.form.files).map((file, id) => {
-        return new Page({
-          file,
-          id
-        });
+      state.points.push({
+        id: state.points.length + 1,
+        nativeX: this.point.x,
+        nativeY: this.point.y,
+        nativeCrs: this.point.crs
       });
     }
-  },
-  watch: {
   },
   components: {
     UiButton,

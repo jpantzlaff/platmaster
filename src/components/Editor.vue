@@ -10,7 +10,7 @@
           />
         </template>
         <AbsolutePointForm
-          v-if="pendingPoint && pendingPoint.type === 'absolute'"
+          v-if="state.pendingPoint && state.pendingPoint.type === 'absolute'"
         ></AbsolutePointForm>
         <!-- <RelativePointForm
           v-if="pendingPoint && pendingPoint.type === 'relative'"
@@ -40,7 +40,9 @@
 
 <style scoped>
   .controls {
-    flex: 0 0 15rem;
+    background-color: var(--color2);
+    flex: 0 0 17rem;
+    padding: 0.5rem;
   }
   .editor {
     display: flex;
@@ -48,6 +50,7 @@
     width: 100%;
   }
   .view {
+    background-color: black;
     flex: 1 1 auto;
   }
 </style>
@@ -59,6 +62,7 @@ import {
 } from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
 
+import AbsolutePointForm from './AbsolutePointForm';
 import FixedPoint from './FixedPoint';
 import {state} from '../main.js';
 import Viewer from './Viewer';
@@ -66,9 +70,10 @@ import Viewer from './Viewer';
 export default {
   name: 'Editor',
   mounted() {
-    if (this.points.length === 0 && !this.pendingPoint) {
-      this.pendingPoint = {
-        crs: this.preferredCrs,
+    console.log(this.state.points, this.state.pendingPoint);
+    if (this.state.points.length === 0 && !this.state.pendingPoint) {
+      this.state.pendingPoint = {
+        crs: this.preferredCrs || {},
         type: 'absolute',
         x: null,
         y: null
@@ -96,6 +101,8 @@ export default {
     }
   },
   components: {
+    AbsolutePointForm,
+    FixedPoint,
     UiButton,
     Viewer
   }

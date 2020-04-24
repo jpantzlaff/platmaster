@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <UiToolbar class="header" brand="PlatMaster" :title="title" removeNavIcon />
+    <UiToolbar
+      class="header"
+      brand="PlatMaster"
+      :title="title"
+      :removeNavIcon="true"
+    />
     <div class="settings">
       <UiIconButton
         class="setting-button"
@@ -34,6 +39,7 @@
     height: 0;
   }
   .setting-button {
+    background-color: var(--color1) !important;
     margin-right: 1rem;
   }
   .settings {

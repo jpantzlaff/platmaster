@@ -9,14 +9,14 @@ html, body, #app {
     width: 100%;
 }
 .ui-modal__body,
-.ui-fab,
-.ui-icon-button {
+.ui-fab {
     background-color: var(--color1, #ffffff) !important;
 }
 .ui-modal__header,
 .ui-button,
 .ui-select__options,
-.ui-fileupload {
+.ui-fileupload,
+.ui-icon-button {
     background-color: var(--color2, #eeeeee) !important;
 }
 h1, h2, h3, h4, h5, h6, p,
@@ -83,4 +83,7 @@ h2 {
 }
 .ui-fileupload__display-text {
     text-transform: uppercase !important;
+}
+.ui-toolbar {
+    box-shadow: none !important;
 }
