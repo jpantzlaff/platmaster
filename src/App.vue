@@ -11,7 +11,7 @@
       />
     </div>
     <div class="rest">
-      <Editor v-if="false" />
+      <Editor v-if="pages.length > 0" />
       <DocumentForm v-else />
     </div>
     <Settings ref="settings" />
@@ -62,7 +62,13 @@ export default {
   name: 'App',
   computed: {
     title() {
-      return 'New document' + ((state.form.name) ? (': ' + state.form.name) : '');
+      if (state.pages.length > 0) {
+        return state.form.name;
+      } else if (state.form.name) {
+        return `New document: ${state.form.name}`;
+      } else {
+        return 'New document';
+      }
     }
   },
   data() {

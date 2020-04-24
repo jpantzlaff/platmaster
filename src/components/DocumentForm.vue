@@ -58,7 +58,7 @@
         v-if="isValid"
         size="large"
         icon="library_add"
-        v-on:click="createProject"
+        v-on:click="submitForm"
       >
         Start
       </UiButton>
@@ -119,6 +119,7 @@ import 'keen-ui/dist/keen-ui.css';
 
 import {distanceUnits, magDeclinationYears} from '../env.js';
 import {state} from '../main.js';
+import Page from '../Page.js';
 import {queryProj} from '../util.js';
 import {formatDate} from '../viz.js';
 
@@ -177,13 +178,23 @@ export default {
         .finally(() => this.crsLoading = false);
     },
     formatDate,
-    submitForm() {}
+    submitForm() {
+      state.pages = Array.from(this.form.files).map((file, id) => {
+        return new Page({
+          file,
+          id
+        });
+      });
+    }
   },
   watch: {
     'form.bearingBasisType': function(value) {
       if (value !== 'Magnetic north') {
         this.form.bearingBasisDate = null;
       }
+    },
+    'form.crs': function(value) {
+      state.preferredCrs = value;
     },
     'form.files': function(value) {
       if (this.form.previewUrl) {

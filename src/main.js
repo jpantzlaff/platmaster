@@ -7,6 +7,7 @@ import DB from './db.js';
 export const db = new DB();
 
 export const state = {
+  activePoint: null,
   form: {
     bearingBasisDate: null,
     bearingBasisType: 'True/geodetic north',
@@ -17,6 +18,9 @@ export const state = {
     previewUrl: null
   },
   pages: [],
+  pendingPoint: null,
+  preferredCrs: {},
+  points: [],
   settings: {
     color1: '#283354',
     color2: '#212B48',

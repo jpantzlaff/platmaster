@@ -12,7 +12,7 @@ export const distanceUnits = [
 ];
 
 const magDeclinationYears = [];
-for (let year = 1590, max = 2024; year < max; year++) {
+for (let year = 1590, max = Math.min(new Date().getFullYear(), 2024); year < max; year++) {
   magDeclinationYears.push(year);
 }
 export {magDeclinationYears};
