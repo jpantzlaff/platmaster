@@ -53,8 +53,10 @@
     justify-content: space-between;
   }
   .descriptor {
+    flex: 1 1 auto;
     font-weight: bold;
     margin: 0;
+    text-align: center;
   }
   .point-form {
     background-color: var(--color1);

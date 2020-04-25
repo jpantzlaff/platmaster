@@ -8,6 +8,20 @@ html, body, #app {
     padding: 0;
     width: 100%;
 }
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--light-text-color) var(--color2);
+}
+::-webkit-scrollbar {
+    width: 11px;
+}
+::-webkit-scrollbar-track { 
+    background: var(--color2);
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--light-text-color);
+    border: 3px solid var(--color2);
+}
 .ui-modal__body,
 .ui-fab {
     background-color: var(--color1, #ffffff) !important;

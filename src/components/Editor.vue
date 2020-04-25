@@ -41,13 +41,21 @@
 <style scoped>
   .controls {
     background-color: var(--color2);
+    display: flex;
     flex: 0 0 17rem;
-    padding: 0.5rem;
+    flex-direction: column;
+    padding: 0.5rem 0.2rem 0.5rem 0.5rem;
   }
   .editor {
     display: flex;
     height: 100%;
     width: 100%;
+  }
+  .points {
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 0.3em;
+    scrollbar-width: thin;
   }
   .view {
     background-color: black;

@@ -3,17 +3,10 @@
     class="point"
     v-on:click="placePoint"
   >
-    <div class="point-head">
+    <div class="point-bar">
       <div class="point-id-badge">
         <p class="point-id">{{point.id}}</p>
       </div>
-      <div class="point-xy">
-        <p class="point-x">{{point.nativeX}}</p>
-        <p class="point-sep">,</p>
-        <p class="point-y">{{point.nativeY}}</p>
-      </div>
-    </div>
-    <div class="point-base">
       <UiIconButton
         class="relative-point"
         icon="timeline"
@@ -21,7 +14,14 @@
         :disabled="!newPointsAllowed"
         v-on:click="newRelativePoint"
       />
-      <p class="point-crs">{{point.nativeCrs.label}}</p>
+    </div>
+    <div class="point-data">
+      <div class="point-xy">
+        <p class="point-x">{{point.nativeX}}</p>
+        <p class="point-sep">,</p>
+        <p class="point-y">{{point.nativeY}}</p>
+      </div>
+      <p class="point-crs">{{point.nativeCrs.value.name}}</p>
     </div>
   </div>
 </template>
@@ -29,19 +29,35 @@
 <style scoped>
   .point {
     background-color: var(--color1);
+    border: 1.5px solid var(--color1);
     border-radius: 0.125rem;
-    margin-bottom: 0.75rem;
-    padding: 0.5rem 0.75rem;
-  }
-  .point-base {
-    align-items: center;
     display: flex;
+    height: 4.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .point-bar {
+    border: 1.5px solid var(--color1);
+    display: flex;
+    flex: 0 0 2.25rem;
+    flex-direction: column;
+  }
+  .point-data {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 0.5rem 0.1rem 0.5em;
   }
   .point-crs {
     color: var(--light-text-color) !important;
-  }
-  .point-head {
-    display: flex;
+    flex: 0 1 auto;
+    font-size: 85%;
+    line-height: 1.25;
+    margin: 0;
+    max-height: 2rem;
+    overflow: hidden;
+    text-align: right;
+    text-overflow: ellipsis;
   }
   .point-id {
     font-weight: bold;
@@ -50,17 +66,21 @@
   .point-id-badge {
     align-items: center;
     background-color: var(--color2);
-    border-radius: 0.75em;
+    border-bottom: 1.5px solid var(--color1);
     display: flex;
-    flex: 0 0 1.5rem;
-    height: 1.5rem;
     justify-content: center;
-    width: 1.5rem;
+  }
+  .point-id-badge, .relative-point {
+    flex: 0 0 50%;
+  }
+  .relative-point {
+    border-radius: 0;
+    width: 100%;
   }
   .point-xy {
     display: flex;
-    flex: 1 1 auto;
-    justify-content: center;
+    flex: 0 0 auto;
+    justify-content: flex-end;
     margin-left: 0.3rem;
   }
   .point-x, .point-sep, .point-y {
