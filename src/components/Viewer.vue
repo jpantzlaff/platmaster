@@ -32,6 +32,8 @@
 <style scoped>
   .map {
     background-color: black;
+    border-right: 0.1rem solid black;
+    border-top: 0.1rem solid black;
     height: 100%;
     width: 100%;
   }
@@ -43,6 +45,7 @@
   .switcher {
     align-items: center;
     background-color: var(--color1);
+    border: 0.05rem solid black;
     border-radius: 0.125rem;
     bottom: 2rem;
     display: flex;
@@ -104,6 +107,8 @@ export default {
       if (this.layer) {
         this.layer.remove();
       }
+      this.map.setMaxBounds(null);
+      this.map.setMinZoom(-100);
       this.layer = L.imageOverlay(
         page.objectUrl,
         [[0, 0], [height, width]],
