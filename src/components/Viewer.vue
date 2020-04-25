@@ -10,19 +10,19 @@
     >
       <UiIconButton
         class="advance"
-        icon="arrow_back_ios"
+        icon="keyboard_arrow_left"
         size="mini"
         tooltip="View previous page"
-        :disabled="state.activePage.id <= 1"
+        v-if="state.activePage.id > 0"
         v-on:click="backward"
       />
-      <p class="page-number">{{state.activePage.id}}</p>
+      <p class="page-indicator">Page {{state.activePage.id + 1}}</p>
       <UiIconButton
         class="advance"
-        icon="arrow_forward_ios"
+        icon="keyboard_arrow_right"
         size="mini"
         tooltip="View next page"
-        :disabled="state.activePage.id >= state.pages.length"
+        v-if="state.activePage.id < state.pages.length - 1"
         v-on:click="forward"
       />
     </div>
@@ -35,11 +35,22 @@
     height: 100%;
     width: 100%;
   }
+  .page-indicator {
+    margin: 0 0.7rem;
+    user-select: none;
+    word-spacing: 0.1em;
+  }
   .switcher {
+    align-items: center;
+    background-color: var(--color1);
+    border-radius: 0.125rem;
     bottom: 2rem;
     display: flex;
+    justify-content: space-between;
     left: 2rem;
+    padding: 0.3rem;
     position: absolute;
+    z-index: 1000;
   }
 </style>
 
@@ -61,8 +72,8 @@ import {formatDate} from '../viz.js';
 export default {
   name: 'Viewer',
   mounted() {
-    console.log(this.$refs);
     this.map = L.map(this.$refs.leaflet, {
+      attributionControl: false,
       center: [0, 0],
       crs: L.CRS.Simple,
       maxZoom: 10,
@@ -82,10 +93,10 @@ export default {
   },
   methods: {
     backward() {
-
+      state.activePage = state.pages[state.activePage.id - 1];
     },
     forward() {
-
+      state.activePage = state.pages[state.activePage.id + 1];
     },
     async handlePage() {
       const page = state.activePage;
