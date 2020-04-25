@@ -97,7 +97,7 @@ export function setBackgroundColor(value) {
 };
 
 export function setEditorColor(value) {
-  document.documentElement.style.setProperty('--editor-color', value);
+  document.documentElement.style.setProperty('--editor-filter', `invert(${value ? 1 : 0})`);
 };
 
 export function setTextColor(value) {

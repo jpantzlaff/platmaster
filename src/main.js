@@ -63,7 +63,7 @@ import {
   }
   setAccentColor(state.settings.color2);
   setBackgroundColor(state.settings.color1);
-  setEditorColor(state.settings.darkEditor ? 'black' : 'white');
+  setEditorColor(state.settings.darkEditor);
   setTextColor(state.settings.colorText);
 
   new Vue({

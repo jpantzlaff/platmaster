@@ -92,7 +92,9 @@ h2 {
 .ui-datepicker.is-invalid .ui-datepicker__feedback-text {
     font-weight: bold;
 }
-.is-disabled {
+.is-disabled,
+.leaflet-control-zoom-in.leaflet-disabled,
+.leaflet-control-zoom-out.leaflet-disabled {
     cursor: not-allowed !important;
     filter: grayscale(70%);
 }
@@ -101,4 +103,14 @@ h2 {
 }
 .ui-toolbar {
     box-shadow: none !important;
+}
+.editor-page {
+    filter: var(--editor-filter);
+}
+.ui-modal {
+    z-index: 10000 !important;
+}
+.leaflet-control-zoom-in, .leaflet-control-zoom-out {
+    background-color: var(--color1) !important;
+    color: var(--text-color) !important;
 }

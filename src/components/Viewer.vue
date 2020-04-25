@@ -1,6 +1,9 @@
 <template>
   <div class="viewer">
-    <div class="ol"></div>
+    <div
+      class="map"
+      ref="leaflet"
+    />
     <div
       class="switcher"
       v-if="state.pages.length > 1"
@@ -27,6 +30,11 @@
 </template>
 
 <style scoped>
+  .map {
+    background-color: black;
+    height: 100%;
+    width: 100%;
+  }
   .switcher {
     bottom: 2rem;
     display: flex;
@@ -41,6 +49,8 @@ import {
   UiIconButton
 } from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 import {distanceUnits, magDeclinationYears} from '../env.js';
 import {state} from '../main.js';
@@ -50,10 +60,25 @@ import {formatDate} from '../viz.js';
 
 export default {
   name: 'Viewer',
-  computed: {
+  mounted() {
+    console.log(this.$refs);
+    this.map = L.map(this.$refs.leaflet, {
+      center: [0, 0],
+      crs: L.CRS.Simple,
+      maxZoom: 10,
+      minZoom: -100,
+      zoom: 0,
+      zoomDelta: 0.5,
+      zoomSnap: 0
+    });
+    this.handlePage();
   },
   data() {
-    return {state};
+    return {
+      state,
+      layer: null,
+      map: null
+    };
   },
   methods: {
     backward() {
@@ -61,11 +86,31 @@ export default {
     },
     forward() {
 
+    },
+    async handlePage() {
+      const page = state.activePage;
+      const {height, width} = await page.size;
+      if (this.layer) {
+        this.layer.remove();
+      }
+      this.layer = L.imageOverlay(
+        page.objectUrl,
+        [[0, 0], [height, width]],
+        {className: 'editor-page'}
+      );
+      this.map.addLayer(this.layer);
+      this.map.fitBounds(this.layer.getBounds(), {
+        animate: false,
+        duration: 0,
+        padding: [50, 50]
+      });
+      this.map.setMaxBounds(this.map.getBounds());
+      this.map.setMinZoom(this.map.getZoom() + 0.01);
     }
   },
   watch: {
-    'state.activePage': function(value) {
-
+    'state.activePage': function() {
+      this.handlePage();
     }
   },
   components: {
