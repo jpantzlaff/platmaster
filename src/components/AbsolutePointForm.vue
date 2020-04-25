@@ -96,6 +96,7 @@ import {
   UiTextbox
 } from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
+import proj4 from 'proj4';
 
 import {state} from '../main.js';
 import {queryProj} from '../util.js';
@@ -142,12 +143,20 @@ export default {
         .finally(() => this.crsLoading = false);
     },
     submitForm() {
-      state.points.push({
+      const point = {
         id: state.points.length + 1,
         nativeX: Number(this.point.x),
         nativeY: Number(this.point.y),
         nativeCrs: this.point.crs.value
-      });
+      };
+      if (state.localCrs.proj4) {
+        [point.localX, point.localY] = proj4(
+          point.nativeCrs.proj4,
+          state.localCrs.proj4,
+          [point.nativeX, point.nativeY]
+        );
+      }
+      state.points.push(point);
       state.pendingPoint = null;
     }
   },

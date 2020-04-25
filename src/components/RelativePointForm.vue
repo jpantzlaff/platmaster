@@ -91,9 +91,10 @@ import {
   UiTextbox
 } from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
+import proj4 from 'proj4';
 
 import {state} from '../main.js';
-import {queryProj} from '../util.js';
+import {destination, queryProj} from '../util.js';
 import {parseDirection} from '../viz.js';
 
 export default {
@@ -103,8 +104,7 @@ export default {
       try {
         parseDirection(this.direction);
         return true;
-      } catch(error) {
-        console.error(error);
+      } catch {
         return false;
       }
     },
@@ -126,12 +126,24 @@ export default {
   },
   methods: {
     submitForm() {
-      // state.points.push({
-      //   id: state.points.length + 1,
-      //   nativeX: this.point.x,
-      //   nativeY: this.point.y,
-      //   nativeCrs: this.point.crs.value
-      // });
+      const [localX, localY] = destination(
+        [this.origin.localX, this.origin.localY],
+        parseDirection(this.direction),
+        this.distance
+      );
+      const [nativeX, nativeY] = proj4(
+        state.localCrs.proj4,
+        this.origin.nativeCrs.proj4,
+        [localX, localY]
+      );
+      state.points.push({
+        id: state.points.length + 1,
+        localX,
+        localY,
+        nativeCrs: this.origin.nativeCrs,
+        nativeX,
+        nativeY
+      });
       state.pendingPoint = null;
     }
   },

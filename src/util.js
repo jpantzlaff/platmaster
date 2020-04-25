@@ -112,7 +112,8 @@ export function gridConvergence(crs, x, y) {
   const a = proj.inverse([x, y]);
   const b = proj.inverse([x, y + 10]);
   console.log(a, b);
-  return -(bearing(a, b));
+  // return -(bearing(a, b));
+  return bearing(a, b);
 };
 
 export async function queryProj(query) {

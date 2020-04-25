@@ -132,9 +132,9 @@ export default {
     'state.points': async function(value) {
       if (!state.localCrs.proj4 && state.points[0]) {
         const point = state.points[0];
-        const x = point.nativeX;
-        const y = point.nativeY;
-        const [lon, lat] = proj4(point.nativeCrs.proj4).inverse([x, y]);
+        point.localX = 0;
+        point.localY = 0;
+        const [lon, lat] = proj4(point.nativeCrs.proj4).inverse([point.nativeX, point.nativeY]);
         const unit = state.form.distanceUnit.value;
         state.localCrs.proj4 = `+proj=aeqd +lat_0=${lat} +lon_0=${lon} +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=${unit} +no_defs`;
         const basis = state.form.bearingBasisType;
@@ -147,6 +147,7 @@ export default {
           }
         } else if (basis === 'Grid') {
           try {
+            const [x, y] = proj4(state.form.crs.value.proj4, [lon, lat]);
             state.localCrs.offset = gridConvergence(state.form.crs.value, x, y);
             console.log(state.localCrs.offset);
           } catch(error) {
