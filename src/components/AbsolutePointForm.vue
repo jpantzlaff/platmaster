@@ -21,6 +21,7 @@
     </div>
     <UiSelect
       v-model="point.crs"
+      class="crs-select"
       placeholder="Search projection/SRID"
       :disableFilter="true"
       :hasSearch="true"
@@ -76,6 +77,12 @@
     padding-left: 0.25rem;
   }
 </style>
+<style>
+  .crs-select .ui-select__display-value {
+    max-height: 2em;
+    overflow: hidden;
+  }
+</style>
 
 <script>
 
@@ -91,6 +98,9 @@ import {queryProj} from '../util.js';
 
 export default {
   name: 'AbsolutePointForm',
+  mounted() {
+
+  },
   computed: {
     crsValid() {
       return Boolean(this.point.crs.value);
@@ -137,6 +147,7 @@ export default {
         nativeY: this.point.y,
         nativeCrs: this.point.crs
       });
+      state.pendingPoint = null;
     }
   },
   components: {

@@ -51,6 +51,10 @@
     height: 100%;
     width: 100%;
   }
+  .point-add {
+    background-color: var(--color1) !important;
+    width: 100%;
+  }
   .points {
     height: 100%;
     overflow-y: auto;
@@ -81,7 +85,7 @@ export default {
     console.log(this.state.points, this.state.pendingPoint);
     if (this.state.points.length === 0 && !this.state.pendingPoint) {
       this.state.pendingPoint = {
-        crs: this.preferredCrs || {},
+        crs: {},
         type: 'absolute',
         x: null,
         y: null
@@ -105,7 +109,12 @@ export default {
 
     },
     newAbsolutePoint() {
-
+      this.state.pendingPoint = {
+        crs: {},
+        type: 'absolute',
+        x: null,
+        y: null
+      };
     }
   },
   components: {

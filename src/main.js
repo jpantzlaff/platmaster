@@ -19,7 +19,6 @@ export const state = {
   },
   pages: [],
   pendingPoint: null,
-  preferredCrs: {},
   points: [],
   settings: {
     color1: '#283354',
@@ -27,8 +26,7 @@ export const state = {
     colorText: '#DDE6FF',
     darkEditor: false,
     dateFormat: 'YYYY-MM-DD',
-    directionFormat: 'N 45.33.36 E',
-    distanceFormat: '1234.56'
+    directionFormat: 'N 45.33.36 E'
   }
 };
 

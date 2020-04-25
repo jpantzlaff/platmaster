@@ -193,9 +193,6 @@ export default {
         this.form.bearingBasisDate = null;
       }
     },
-    'form.crs': function(value) {
-      state.preferredCrs = value;
-    },
     'form.files': function(value) {
       if (this.form.previewUrl) {
         URL.revokeObjectURL(this.form.previewUrl);

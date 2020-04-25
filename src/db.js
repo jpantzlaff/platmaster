@@ -12,7 +12,6 @@ export default class DB {
       .addColumn('darkEditor', Type.BOOLEAN)
       .addColumn('dateFormat', Type.STRING)
       .addColumn('directionFormat', Type.STRING)
-      .addColumn('distanceFormat', Type.STRING)
       .addPrimaryKey(['id'], true);
   }
 
