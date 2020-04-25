@@ -110,10 +110,10 @@ export default {
       return (this.crsValid && this.xValid && this.yValid);
     },
     xValid() {
-      return Boolean(Number(this.point.x));
+      return Number.isFinite(parseFloat(this.point.x));
     },
     yValid() {
-      return Boolean(Number(this.point.y));
+      return Number.isFinite(parseFloat(this.point.y));
     }
   },
   data() {
@@ -144,9 +144,9 @@ export default {
     submitForm() {
       state.points.push({
         id: state.points.length + 1,
-        nativeX: this.point.x,
-        nativeY: this.point.y,
-        nativeCrs: this.point.crs
+        nativeX: Number(this.point.x),
+        nativeY: Number(this.point.y),
+        nativeCrs: this.point.crs.value
       });
       state.pendingPoint = null;
     }

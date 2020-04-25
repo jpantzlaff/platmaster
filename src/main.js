@@ -17,6 +17,10 @@ export const state = {
     name: 'Untitled',
     previewUrl: null
   },
+  localCrs: {
+    offset: 0,
+    proj4: null
+  },
   pages: [],
   pendingPoint: null,
   points: [],

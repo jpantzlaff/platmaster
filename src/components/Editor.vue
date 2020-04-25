@@ -42,6 +42,7 @@
 <style scoped>
   .control-buttons {
     padding-right: 0.3rem;
+    padding-top: 1.5rem;
   }
   .controls {
     background-color: var(--color2);
@@ -81,6 +82,8 @@ import {
   UiButton
 } from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
+import proj4 from 'proj4';
+import {getMagDecl, gridConvergence} from '../util.js';
 
 import AbsolutePointForm from './AbsolutePointForm';
 import FixedPoint from './FixedPoint';
@@ -91,7 +94,6 @@ import Viewer from './Viewer';
 export default {
   name: 'Editor',
   mounted() {
-    console.log(this.state.points, this.state.pendingPoint);
     if (this.state.points.length === 0 && !this.state.pendingPoint) {
       this.state.pendingPoint = {
         crs: {},
@@ -124,6 +126,34 @@ export default {
         x: null,
         y: null
       };
+    }
+  },
+  watch: {
+    'state.points': async function(value) {
+      if (!state.localCrs.proj4 && state.points[0]) {
+        const point = state.points[0];
+        const x = point.nativeX;
+        const y = point.nativeY;
+        const [lon, lat] = proj4(point.nativeCrs.proj4).inverse([x, y]);
+        const unit = state.form.distanceUnit.value;
+        state.localCrs.proj4 = `+proj=aeqd +lat_0=${lat} +lon_0=${lon} +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=${unit} +no_defs`;
+        const basis = state.form.bearingBasisType;
+        if (basis === 'Magnetic north') {
+          try {
+            state.localCrs.offset = await getMagDecl([lon, lat], state.form.bearingBasisDate);
+            console.log(state.localCrs.offset);
+          } catch(error) {
+            console.error(error);
+          }
+        } else if (basis === 'Grid') {
+          try {
+            state.localCrs.offset = gridConvergence(state.form.crs.value, x, y);
+            console.log(state.localCrs.offset);
+          } catch(error) {
+            console.error(error);
+          }
+        }
+      }
     }
   },
   components: {

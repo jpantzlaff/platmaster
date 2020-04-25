@@ -130,7 +130,7 @@ export default {
       //   id: state.points.length + 1,
       //   nativeX: this.point.x,
       //   nativeY: this.point.y,
-      //   nativeCrs: this.point.crs
+      //   nativeCrs: this.point.crs.value
       // });
       state.pendingPoint = null;
     }

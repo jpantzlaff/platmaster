@@ -21,7 +21,7 @@
         <p class="point-sep">,</p>
         <p class="point-y">{{point.nativeY}}</p>
       </div>
-      <p class="point-crs">{{point.nativeCrs.value.name}}</p>
+      <p class="point-crs">{{point.nativeCrs.name}}</p>
     </div>
   </div>
 </template>

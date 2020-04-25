@@ -6,6 +6,11 @@
 //   return count;
 // };
 
+import bearing from '@turf/bearing';
+import proj4 from 'proj4';
+
+import {state} from './main.js';
+
 export function degToDms(degrees) {
   let remainder = degrees;
   const deg = Math.floor(degrees);
@@ -18,6 +23,18 @@ export function degToDms(degrees) {
 
 export function degToRad(deg) {
   return deg * (Math.PI / 180);
+};
+
+export function destination(source, direction, distance) {
+  const [x, y] = source;
+  let dir = direction + state.localCrs.offset;
+  if (dir < 0) dir += 360;
+  else if (dir >= 360) dir -= 360;
+  const angle = directionToAngle(dir);
+  return [
+    x + (distance * Math.cos(angle)),
+    y + (distance * Math.sin(angle))
+  ];
 };
 
 export function dmsToDeg(dms) {
@@ -55,6 +72,47 @@ export async function getJson(url, params) {
   } catch {
     throw Error(`Request to ${url} did not return JSON. Response:\n${response}`);
   }
+};
+
+export async function getMagDecl(coord, date) {
+  const [lon1, lat1] = coord;
+  const year = date.getFullYear();
+  let model;
+  if (year >= 2019) {
+    model = 'WMM';
+  } else if (year >= 2000) {
+    model = 'EMM';
+  } else if (year >= 1590) {
+    model = 'IGRF';
+  } else {
+    throw Error('Magnetic declination data are not available for years prior to 1590.');
+  }
+  const response = await getJson('https://www.ngdc.noaa.gov/geomag-web/calculators/calculateDeclination', {
+    lat1,
+    lat1Hemisphere: (lat1 < 0) ? 'S' : 'N',
+    lon1,
+    lon1Hemisphere: (lon1 < 0) ? 'W' : 'E',
+    magneticComponent: 'd',
+    model,
+    resultFormat: 'json',
+    startDay: date.getDate(),
+    startMonth: date.getMonth() + 1,
+    startYear: year
+  });
+  try {
+    return response.result[0].declination;
+  } catch {
+    throw Error('A magnetic declination could not be calculated.');
+  }
+};
+
+export function gridConvergence(crs, x, y) {
+  if (crs.kind === 'CRS-GEOGCRS') return 0;
+  const proj = proj4(crs.proj4);
+  const a = proj.inverse([x, y]);
+  const b = proj.inverse([x, y + 10]);
+  console.log(a, b);
+  return -(bearing(a, b));
 };
 
 export async function queryProj(query) {
