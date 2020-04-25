@@ -2,11 +2,11 @@ import Vue from 'vue';
 
 import App from './App.vue';
 import DB from './db.js';
-// import Project from './Project.js';
 
 export const db = new DB();
 
 export const state = {
+  activePage: null,
   activePoint: null,
   form: {
     bearingBasisDate: null,

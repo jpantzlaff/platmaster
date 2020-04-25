@@ -185,6 +185,7 @@ export default {
           id
         });
       });
+      state.activePage = state.pages[0];
     }
   },
   watch: {

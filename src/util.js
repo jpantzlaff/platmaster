@@ -1,11 +1,3 @@
-// export function characterCount(string, character) {
-//   let count = 0;
-//   for (let char of string) {
-//     if (char === character) count++;
-//   }
-//   return count;
-// };
-
 import bearing from '@turf/bearing';
 import proj4 from 'proj4';
 
@@ -111,8 +103,6 @@ export function gridConvergence(crs, x, y) {
   const proj = proj4(crs.proj4);
   const a = proj.inverse([x, y]);
   const b = proj.inverse([x, y + 10]);
-  console.log(a, b);
-  // return -(bearing(a, b));
   return bearing(a, b);
 };
 
