@@ -124,7 +124,15 @@ export default {
     return {state};
   },
   methods: {
-    newRelativePoint() {},
+    newRelativePoint() {
+      this.state.pendingPoint = {
+        crs: {},
+        origin: this.point,
+        type: 'relative',
+        x: null,
+        y: null
+      };
+    },
     placePoint() {
       state.activePoint = this.point;
     }

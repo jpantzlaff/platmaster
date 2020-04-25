@@ -1,12 +1,15 @@
 <template>
   <div class="point-form">
+    <div class="top">
+      <p class="descriptor">New Point</p>
+    </div>
     <div class="xy">
       <UiTextbox
         v-model="point.x"
         class="x"
         placeholder="X"
         type="number"
-        error="Provide an X."
+        error="Provide a value."
         :invalid="!xValid"
       />
       <p class="sep">,</p>
@@ -15,7 +18,7 @@
         class="y"
         placeholder="Y"
         type="number"
-        error="Provide a Y."
+        error="Provide a value."
         :invalid="!yValid"
       />
     </div>
@@ -33,8 +36,7 @@
       :invalid="!crsValid"
     />
     <div class="bottom">
-      <p class="descriptor">New Point</p>
-      <UiButton
+       <UiButton
         class="submit"
         v-if="isValid"
         size="normal"
@@ -48,10 +50,9 @@
 </template>
 
 <style scoped>
-  .bottom {
+  .top, .bottom {
     align-items: center;
     display: flex;
-    justify-content: space-between;
   }
   .descriptor {
     flex: 1 1 auto;
@@ -66,6 +67,9 @@
   }
   .sep {
     margin: 0.7em 0 0 0;
+  }
+  .submit {
+    width: 100%;
   }
   .xy {
     display: flex;
@@ -98,9 +102,6 @@ import {queryProj} from '../util.js';
 
 export default {
   name: 'AbsolutePointForm',
-  mounted() {
-
-  },
   computed: {
     crsValid() {
       return Boolean(this.point.crs.value);

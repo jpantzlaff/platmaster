@@ -12,9 +12,9 @@
         <AbsolutePointForm
           v-if="state.pendingPoint && state.pendingPoint.type === 'absolute'"
         ></AbsolutePointForm>
-        <!-- <RelativePointForm
-          v-if="pendingPoint && pendingPoint.type === 'relative'"
-        ></RelativePointForm> -->
+        <RelativePointForm
+          v-if="state.pendingPoint && state.pendingPoint.type === 'relative'"
+        ></RelativePointForm>
         <UiButton
           class="point-add"
           icon="add"
@@ -27,8 +27,9 @@
       <div class="control-buttons">
         <UiButton
           class="export"
-          icon="save-alt"
-          v-if="exportAllowed"
+          icon="save_alt"
+          size="large"
+          :disabled="!exportAllowed"
           v-on:click="exportPages"
         >
           Export
@@ -39,6 +40,9 @@
 </template>
 
 <style scoped>
+  .control-buttons {
+    padding-right: 0.3rem;
+  }
   .controls {
     background-color: var(--color2);
     display: flex;
@@ -51,6 +55,10 @@
     height: 100%;
     width: 100%;
   }
+  .export {
+    background-color: var(--color1) !important;
+    width: 100%;
+  }
   .point-add {
     background-color: var(--color1) !important;
     width: 100%;
@@ -58,7 +66,7 @@
   .points {
     height: 100%;
     overflow-y: auto;
-    padding-right: 0.3em;
+    padding-right: 0.3rem;
     scrollbar-width: thin;
   }
   .view {
@@ -77,6 +85,7 @@ import 'keen-ui/dist/keen-ui.css';
 import AbsolutePointForm from './AbsolutePointForm';
 import FixedPoint from './FixedPoint';
 import {state} from '../main.js';
+import RelativePointForm from './RelativePointForm';
 import Viewer from './Viewer';
 
 export default {
@@ -120,6 +129,7 @@ export default {
   components: {
     AbsolutePointForm,
     FixedPoint,
+    RelativePointForm,
     UiButton,
     Viewer
   }

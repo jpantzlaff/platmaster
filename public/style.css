@@ -94,6 +94,7 @@ h2 {
 }
 .is-disabled {
     cursor: not-allowed !important;
+    filter: grayscale(70%);
 }
 .ui-fileupload__display-text {
     text-transform: uppercase !important;

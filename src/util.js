@@ -1,10 +1,10 @@
-export function characterCount(string, character) {
-  let count = 0;
-  for (let char of string) {
-    if (char === character) count++;
-  }
-  return count;
-};
+// export function characterCount(string, character) {
+//   let count = 0;
+//   for (let char of string) {
+//     if (char === character) count++;
+//   }
+//   return count;
+// };
 
 export function degToDms(degrees) {
   let remainder = degrees;
