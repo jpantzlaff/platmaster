@@ -15,7 +15,11 @@
         v-on:click="newRelativePoint"
       />
     </div>
-    <div class="point-data">
+    <div
+      class="point-data"
+      :style="{cursor: xyPointer}"
+    >
+      <UiTooltip>{{tooltipContent}}</UiTooltip>
       <div class="point-xy">
         <p class="point-x">{{point.nativeX}}</p>
         <p class="point-sep">,</p>
@@ -100,7 +104,8 @@
 <script>
 
 import {
-  UiIconButton
+  UiIconButton,
+  UiTooltip
 } from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
 
@@ -118,6 +123,24 @@ export default {
     newPointsAllowed() {
       if (this.state.pendingPoint) return false;
       return this.state.points.length < (this.state.pages.length * 2);
+    },
+    pageHasThisPoint() {
+      return this.state.activePage.points.some((p) => p.point === this.point);
+    },
+    placePointsAllowed() {
+      return (this.state.activePage.points.length < 2);
+    },
+    tooltipContent() {
+      if (this.pageHasThisPoint) {
+        return 'This point has already been added to the page.';
+      } else if (!this.placePointsAllowed) {
+        return 'No more points can be added to the page.';
+      } else {
+        return 'Click to add this point to the page.';
+      }
+    },
+    xyPointer() {
+      return (this.pageHasThisPoint || !this.placePointsAllowed) ? 'not-allowed' : 'pointer';
     }
   },
   data() {
@@ -134,11 +157,14 @@ export default {
       };
     },
     placePoint() {
-      state.activePoint = this.point;
+      if (this.placePointsAllowed && !this.pageHasThisPoint) {
+        state.activePoint = this.point;
+      }
     }
   },
   components: {
-    UiIconButton
+    UiIconButton,
+    UiTooltip
   }
 };
 

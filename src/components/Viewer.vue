@@ -3,6 +3,7 @@
     <div
       class="map"
       ref="leaflet"
+      :style="{cursor: mapCursor}"
     />
     <div
       class="switcher"
@@ -56,6 +57,23 @@
     z-index: 1000;
   }
 </style>
+<style>
+  .point-symbol {
+    align-items: center !important;
+    background-color: var(--color2) !important;
+    border: 0.15rem solid var(--text-color) !important;
+    border-radius: 0.75rem !important;
+    color: var(--text-color) !important;
+    display: flex !important;
+    font-size: 1.25rem !important;
+    font-weight: bold !important;
+    height: 1.5rem !important;
+    justify-content: center !important;
+    min-width: 1.5rem !important;
+    padding: 0 0.2rem !important;
+    width: auto !important;
+  }
+</style>
 
 <script>
 
@@ -85,7 +103,13 @@ export default {
       zoomDelta: 0.5,
       zoomSnap: 0
     });
+    this.map.on('click', this.addPoint);
     this.handlePage();
+  },
+  computed: {
+    mapCursor() {
+      return (this.state.activePoint) ? 'crosshair' : 'grab';
+    }
   },
   data() {
     return {
@@ -95,6 +119,24 @@ export default {
     };
   },
   methods: {
+    addPoint(event) {
+      if (state.activePoint) {
+        console.log(event);
+        const marker = L.marker(event.latlng, {
+          draggable: true,
+          icon: L.divIcon({
+            className: 'point-symbol',
+            html: String(state.activePoint.id)
+          }),
+          keyboard: false
+        }).addTo(this.map);
+        state.activePage.points.push({
+          marker,
+          point: state.activePoint
+        });
+        state.activePoint = null;
+      }
+    },
     backward() {
       state.activePage = state.pages[state.activePage.id - 1];
     },
@@ -102,6 +144,7 @@ export default {
       state.activePage = state.pages[state.activePage.id + 1];
     },
     async handlePage() {
+      state.activePoint = null;
       const page = state.activePage;
       const {height, width} = await page.size;
       if (this.layer) {
