@@ -12,6 +12,10 @@
   "dependencies": {
     "@turf/bearing": "^6.0.1",
     "core-js": "^3.6.4",
+    "euclidean": "0.0.0",
+    "file-saver": "^2.0.2",
+    "jimp": "^0.10.3",
+    "jszip": "^3.4.0",
     "keen-ui": "^1.2.1",
     "leaflet": "^1.6.0",
     "lovefield": "^2.1.12",

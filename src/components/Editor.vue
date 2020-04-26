@@ -94,6 +94,7 @@ import proj4 from 'proj4';
 import {getMagDecl, gridConvergence} from '../util.js';
 
 import AbsolutePointForm from './AbsolutePointForm';
+import exportPages from '../export.js';
 import FixedPoint from './FixedPoint';
 import {state} from '../main.js';
 import RelativePointForm from './RelativePointForm';
@@ -129,9 +130,7 @@ export default {
     return {state};
   },
   methods: {
-    exportPages() {
-
-    },
+    exportPages,
     newAbsolutePoint() {
       this.state.pendingPoint = {
         crs: {},

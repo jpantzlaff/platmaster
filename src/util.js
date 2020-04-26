@@ -17,16 +17,25 @@ export function degToRad(deg) {
   return deg * (Math.PI / 180);
 };
 
-export function destination(source, direction, distance) {
+export function destination(source, direction, distance, applyOffset = true, convert = true) {
   const [x, y] = source;
-  let dir = direction + state.localCrs.offset;
+  let dir = direction;
+  if (applyOffset) {
+    dir += state.localCrs.offset;
+  }
   if (dir < 0) dir += 360;
   else if (dir >= 360) dir -= 360;
-  const angle = directionToAngle(dir);
+  const angle = (convert) ? directionToAngle(dir) : dir;
   return [
     x + (distance * Math.cos(angle)),
     y + (distance * Math.sin(angle))
   ];
+};
+
+export function direction(a, b) {
+  const [x1, y1] = a;
+  const [x2, y2] = b;
+  return Math.atan2(y2 - y1, x2 - x1);
 };
 
 export function dmsToDeg(dms) {
@@ -104,6 +113,11 @@ export function gridConvergence(crs, x, y) {
   const a = proj.inverse([x, y]);
   const b = proj.inverse([x, y + 10]);
   return bearing(a, b);
+};
+
+export function markerToXy(marker) {
+  const {lat, lng} = marker.getLatLng();
+  return [lng, lat];
 };
 
 export async function queryProj(query) {
