@@ -55,11 +55,12 @@
       />
       <UiButton
         class="submit"
-        v-if="isValid"
+        :disabled="!isValid"
         size="large"
         icon="library_add"
         v-on:click="submitForm"
       >
+        <UiTooltip :openDelay="300">{{submitTooltip}}</UiTooltip>
         Start
       </UiButton>
     </div>
@@ -105,6 +106,11 @@
     margin-top: 0.5rem;
   }
 </style>
+<style>
+  .submit > .ui-button__content {
+    width: 100%;
+  }
+</style>
 
 <script>
 
@@ -113,7 +119,8 @@ import {
   UiDatepicker,
   UiFileupload,
   UiSelect,
-  UiTextbox
+  UiTextbox,
+  UiTooltip
 } from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
 
@@ -149,6 +156,19 @@ export default {
     },
     nameValid() {
       return (this.form.name.length > 0);
+    },
+    submitTooltip() {
+      if (!this.filesValid) {
+        return 'Select file(s) to georeference.';
+      } else if (!this.crsValid) {
+        return 'Provide the coordinate reference system used in the document.';
+      } else if (!this.dateValid) {
+        return 'Provide an approximate date of survey.';
+      } else if (!this.nameValid) {
+        return 'Provide a name.';
+      } else {
+        return `Proceed to georeference the selected file${(this.form.files.length > 0) ? 's' : ''}.`;
+      }
     }
   },
   data() {
@@ -199,7 +219,11 @@ export default {
         URL.revokeObjectURL(this.form.previewUrl);
       }
       if (value[0]) {
-        this.form.previewUrl = URL.createObjectURL(value[0]);
+        const file = value[0];
+        this.form.previewUrl = URL.createObjectURL(file);
+        if (this.form.name === 'Untitled') {
+          this.form.name = file.name.split('.')[0];
+        }
       }
     }
   },
@@ -208,7 +232,8 @@ export default {
     UiDatepicker,
     UiFileupload,
     UiSelect,
-    UiTextbox
+    UiTextbox,
+    UiTooltip
   }
 };
 

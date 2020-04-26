@@ -19,7 +19,7 @@
       class="point-data"
       :style="{cursor: xyPointer}"
     >
-      <UiTooltip>{{tooltipContent}}</UiTooltip>
+      <UiTooltip :openDelay="750">{{tooltipContent}}</UiTooltip>
       <div class="point-xy">
         <p class="point-x">{{point.nativeX}}</p>
         <p class="point-sep">,</p>
@@ -118,7 +118,7 @@ export default {
     newPointTooltip() {
       return (this.newPointsAllowed)
         ? 'Create a new point relative to this one.'
-        : 'No more points can be placed.';
+        : 'No more than two points can exist for every page.';
     },
     newPointsAllowed() {
       if (this.state.pendingPoint) return false;

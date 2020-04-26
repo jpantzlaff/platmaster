@@ -49,6 +49,7 @@
     border: 0.05rem solid black;
     border-radius: 0.125rem;
     bottom: 2rem;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
     display: flex;
     justify-content: space-between;
     left: 2rem;
@@ -69,6 +70,8 @@
     font-weight: bold !important;
     height: 1.5rem !important;
     justify-content: center !important;
+    margin-left: -0.75rem !important;
+    margin-top: -0.75rem !important;
     min-width: 1.5rem !important;
     padding: 0 0.2rem !important;
     width: auto !important;

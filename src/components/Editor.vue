@@ -18,6 +18,7 @@
         <UiButton
           class="point-add"
           icon="add"
+          tooltip="Create a new point from coordinates."
           v-if="newPointsAllowed"
           v-on:click="newAbsolutePoint"
         >
@@ -32,6 +33,7 @@
           :disabled="!exportAllowed"
           v-on:click="exportPages"
         >
+          <UiTooltip :openDelay="1000">{{exportTooltip}}</UiTooltip>
           Export
         </UiButton>
       </div>
@@ -75,11 +77,17 @@
     flex: 1 1 auto;
   }
 </style>
+<style>
+  .export > .ui-button__content {
+    width: 100%;
+  }
+</style>
 
 <script>
 
 import {
-  UiButton
+  UiButton,
+  UiTooltip
 } from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
 import proj4 from 'proj4';
@@ -106,6 +114,11 @@ export default {
   computed: {
     exportAllowed() {
       return this.state.pages.every((page) => page.points.length >= 2);
+    },
+    exportTooltip() {
+      return (this.exportAllowed)
+        ? 'Save the pages as georeferenced files.'
+        : 'Two points must be added to every page before exporting.';
     },
     newPointsAllowed() {
       if (this.state.pendingPoint) return false;
@@ -162,6 +175,7 @@ export default {
     FixedPoint,
     RelativePointForm,
     UiButton,
+    UiTooltip,
     Viewer
   }
 };

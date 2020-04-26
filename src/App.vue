@@ -11,7 +11,7 @@
         class="setting-button"
         icon="settings"
         size="normal"
-        tooltip="Application settings"
+        tooltip="Adjust the settings of the application."
         v-on:click="openSettings"
       />
     </div>
