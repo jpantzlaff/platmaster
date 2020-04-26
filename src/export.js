@@ -55,6 +55,26 @@ export default async function exportPages() {
       `${state.form.name} - page ${page.id + 1}.png`,
       await jimp.getBufferAsync('image/png')
     );
+    let minX = Infinity;
+    let maxY = -Infinity;
+    for (let corner in corners) {
+      const [x, y] = corners[corner].local;
+      if (x < minX) minX = x;
+      if (y > maxY) maxY = y;
+    }
+    const world = [
+      String(unitsPerPixel),
+      '0.0',
+      '0.0',
+      String(-unitsPerPixel),
+      String(minX + unitsPerPixel),
+      String(maxY - unitsPerPixel)
+    ].join('\n');
+    console.log(world);
+    zip.file(
+      `${state.form.name} - page ${page.id + 1}.pgw`,
+      world
+    );
     // rotate page coordinates for world file
     // push world file to zip
     // push prj file to zip
