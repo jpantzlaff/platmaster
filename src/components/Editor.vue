@@ -31,17 +31,50 @@
           icon="save_alt"
           size="large"
           :disabled="!exportAllowed"
-          v-on:click="exportPages"
+          v-on:click="runExport"
         >
           <UiTooltip :openDelay="1000">{{exportTooltip}}</UiTooltip>
           Export
         </UiButton>
       </div>
+      <UiModal
+        ref="exporting"
+        class="exporting"
+        :dismissible="false"
+        transition="fade"
+        size="auto"
+        :removeHeader="true"
+      >
+        <div
+          v-if="!state.exportComplete"
+          class="progress"
+        >
+          <UiProgressCircular />
+          <h2 class="exporting-text">Exporting...</h2>
+        </div>
+        <div
+          v-else
+          class="conclusion"
+        >
+          <h2 class="complete-text">Export complete</h2>
+          <UiButton
+            icon="replay"
+            v-on:click="reload"
+          >
+            Start Over
+          </UiButton>
+        </div>
+      </UiModal>
     </div>
   </div>
 </template>
 
 <style scoped>
+  .conclusion {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: -0.4rem;
+  }
   .control-buttons {
     padding-right: 0.3rem;
     padding-top: 1.5rem;
@@ -53,6 +86,9 @@
     flex-direction: column;
     padding: 0.5rem 0.2rem 0.5rem 0.5rem;
   }
+  .complete-text {
+    margin: 0 0 1rem 0;
+  }
   .editor {
     display: flex;
     height: 100%;
@@ -61,6 +97,9 @@
   .export {
     background-color: var(--color1) !important;
     width: 100%;
+  }
+  .exporting-text {
+    margin: 0 0 0 1rem;
   }
   .point-add {
     background-color: var(--color1) !important;
@@ -71,6 +110,12 @@
     overflow-y: auto;
     padding-right: 0.3rem;
     scrollbar-width: thin;
+  }
+  .progress {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-bottom: -0.5rem;
   }
   .view {
     background-color: black;
@@ -87,6 +132,8 @@
 
 import {
   UiButton,
+  UiModal,
+  UiProgressCircular,
   UiTooltip
 } from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
@@ -130,7 +177,6 @@ export default {
     return {state};
   },
   methods: {
-    exportPages,
     newAbsolutePoint() {
       this.state.pendingPoint = {
         crs: {},
@@ -138,6 +184,13 @@ export default {
         x: null,
         y: null
       };
+    },
+    reload() {
+      window.location.reload();
+    },
+    runExport() {
+      this.$refs.exporting.open();
+      exportPages();
     }
   },
   watch: {
@@ -185,6 +238,8 @@ export default {
     FixedPoint,
     RelativePointForm,
     UiButton,
+    UiModal,
+    UiProgressCircular,
     UiTooltip,
     Viewer
   }

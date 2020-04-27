@@ -8,6 +8,7 @@ export const db = new DB();
 export const state = {
   activePage: null,
   activePoint: null,
+  exportComplete: false,
   form: {
     bearingBasisDate: null,
     bearingBasisType: 'True/geodetic north',

@@ -81,4 +81,5 @@ export default async function exportPages() {
     await zip.generateAsync({type: 'blob'}),
     `${state.form.name}.zip`
   );
+  state.exportComplete = true;
 };
