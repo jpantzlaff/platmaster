@@ -87,9 +87,7 @@ import 'keen-ui/dist/keen-ui.css';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-import {distanceUnits, magDeclinationYears} from '../env.js';
 import {state} from '../main.js';
-import Page from '../Page.js';
 import {queryProj} from '../util.js';
 import {formatDate} from '../viz.js';
 
@@ -124,7 +122,6 @@ export default {
   methods: {
     addPoint(event) {
       if (state.activePoint) {
-        console.log(event);
         const marker = L.marker(event.latlng, {
           draggable: true,
           icon: L.divIcon({

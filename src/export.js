@@ -26,8 +26,6 @@ export default async function exportPages() {
     const localDirection = direction(localA, localB);
     const pageRotation = pageDirection - localDirection;
     const unitsPerPixel = localDistance / pageDistance;
-    // console.log(pageDirection, localDirection, pageRotation);
-    // console.log(localDistance, pageDistance, unitsPerPixel);
     const pageSize = await page.size;
     const corners = {};
     for (let corner of ['topLeft', 'topRight', 'bottomLeft', 'bottomRight']) {
@@ -40,7 +38,6 @@ export default async function exportPages() {
       const localDistToCorner = pageDistToCorner * unitsPerPixel;
       let localDirToCorner = pageDirToCorner - pageRotation;
       if (localDirToCorner < 0) localDirToCorner += (Math.PI * 2);
-      // console.log(corner, pageDirToCorner, pageDistToCorner, localDirToCorner, localDistToCorner);
       const localCorner = destination(localA, localDirToCorner, localDistToCorner, false, false);
       corners[corner] = {
         local: localCorner,
@@ -70,14 +67,16 @@ export default async function exportPages() {
       String(minX + unitsPerPixel),
       String(maxY - unitsPerPixel)
     ].join('\n');
-    console.log(world);
-    zip.file(
-      `${state.form.name} - page ${page.id + 1}.pgw`,
-      world
-    );
-    // rotate page coordinates for world file
-    // push world file to zip
-    // push prj file to zip
+    zip.file(`${state.form.name} - page ${page.id + 1}.pgw`, world);
+    const aux = `\
+      <PAMDataset>
+        <SRS>${state.localCrs.proj4}</SRS>
+        <Metadata domain="IMAGE_STRUCTURE">
+          <MDI key="INTERLEAVE">PIXEL</MDI>
+        </Metadata>
+      </PAMDataset>\
+    `.replace(/  /g, '').replace(/\n/g, '');
+    zip.file(`${state.form.name} - page ${page.id + 1}.png.aux.xml`, aux);
   }
   saveAs(
     await zip.generateAsync({type: 'blob'}),

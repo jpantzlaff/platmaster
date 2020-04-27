@@ -106,6 +106,7 @@ h2 {
 }
 .editor-page {
     filter: var(--editor-filter);
+    image-rendering: pixelated;
 }
 .ui-modal {
     z-index: 10000 !important;

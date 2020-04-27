@@ -148,7 +148,20 @@ export default {
         point.localY = 0;
         const [lon, lat] = proj4(point.nativeCrs.proj4).inverse([point.nativeX, point.nativeY]);
         const unit = state.form.distanceUnit.value;
-        state.localCrs.proj4 = `+proj=aeqd +lat_0=${lat} +lon_0=${lon} +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=${unit} +no_defs`;
+        state.localCrs.proj4 = [
+          `PROJCS["${state.form.name}"`,
+          'GEOGCS["GCS_WGS_1984"',
+          'DATUM["WGS_1984"',
+          'SPHEROID["WGS_1984",6378137,298.257223563]]',
+          'PRIMEM["Greenwich",0]',
+          'UNIT["Degree",0.017453292519943295]]',
+          'PROJECTION["Azimuthal_Equidistant"]',
+          'PARAMETER["False_Easting",0]',
+          'PARAMETER["False_Northing",0]',
+          `PARAMETER["Central_Meridian",${lon}]`,
+          `PARAMETER["Latitude_Of_Origin",${lat}]`,
+          `UNIT["${unit.abbr}",${unit.factor}]]`
+        ].join(',');
         const basis = state.form.bearingBasisType;
         if (basis === 'Magnetic north') {
           try {
