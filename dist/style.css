@@ -8,15 +8,29 @@ html, body, #app {
     padding: 0;
     width: 100%;
 }
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--light-text-color) var(--color2);
+}
+::-webkit-scrollbar {
+    width: 11px;
+}
+::-webkit-scrollbar-track { 
+    background: var(--color2);
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--light-text-color);
+    border: 3px solid var(--color2);
+}
 .ui-modal__body,
-.ui-fab,
-.ui-icon-button {
+.ui-fab {
     background-color: var(--color1, #ffffff) !important;
 }
 .ui-modal__header,
 .ui-button,
 .ui-select__options,
-.ui-fileupload {
+.ui-fileupload,
+.ui-icon-button {
     background-color: var(--color2, #eeeeee) !important;
 }
 h1, h2, h3, h4, h5, h6, p,
@@ -41,10 +55,12 @@ h1, h2, h3, h4, h5, h6, p,
 .ui-select__feedback-text,
 .ui-datepicker__feedback-text,
 .ui-fileupload,
-.ui-fileupload__icon {
+.ui-fileupload__icon,
+.ui-select__no-results {
     color: var(--text-color, #000000) !important;
 }
-.ui-select__display-value.is-placeholder, ::placeholder {
+.ui-select__display-value.is-placeholder,
+::placeholder {
     color: var(--light-text-color, #000000) !important;
 }
 .ui-select__display, .ui-textbox__input, .ui-datepicker__display {
@@ -65,8 +81,8 @@ h2 {
 .ui-toolbar__body.has-brand-divider {
     border-left-color: var(--light-text-color, #ffffff) !important;
 }
-.ui-fab, .ui-icon-button, .ui-button {
-    cursor: pointer;
+.ui-fab, .ui-icon-button, .ui-button, .ui-close-button {
+    cursor: pointer !important;
 }
 .ui-progress-circular__indeterminate-path {
     stroke: var(--text-color, #000000) !important;
@@ -76,6 +92,29 @@ h2 {
 .ui-datepicker.is-invalid .ui-datepicker__feedback-text {
     font-weight: bold;
 }
-.is-disabled {
+.is-disabled,
+.leaflet-control-zoom-in.leaflet-disabled,
+.leaflet-control-zoom-out.leaflet-disabled {
     cursor: not-allowed !important;
+    filter: grayscale(70%);
+}
+.ui-fileupload__display-text {
+    text-transform: uppercase !important;
+}
+.ui-toolbar {
+    box-shadow: none !important;
+}
+.editor-page {
+    filter: var(--editor-filter);
+    image-rendering: pixelated;
+}
+.ui-modal {
+    z-index: 10000 !important;
+}
+.leaflet-control-zoom-in, .leaflet-control-zoom-out {
+    background-color: var(--color1) !important;
+    color: var(--text-color) !important;
+}
+.tippy-popper {
+    z-index: 20000 !important;
 }
