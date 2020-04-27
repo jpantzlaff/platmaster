@@ -45,7 +45,6 @@ export default async function exportPages() {
         wgs84: proj4(state.localCrs.proj4).inverse(localCorner)
       };
     }
-    console.log(corners);
     const jimp = await Jimp.read(page.objectUrl);
     jimp.rotate(radToDeg(-pageRotation));
     zip.file(

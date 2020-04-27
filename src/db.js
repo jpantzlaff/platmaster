@@ -25,7 +25,6 @@ export default class DB {
   }
 
   async insert(tableName, values, replace = false) {
-    console.log(tableName, values, replace);
     const table = this.db.getSchema().table(tableName);
     const props = {...values};
     if (!props.id) props.id = 0;

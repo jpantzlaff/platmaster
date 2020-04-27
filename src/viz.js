@@ -1,6 +1,3 @@
-// import Point from 'ol/geom/Point';
-// import {Fill, Stroke, Circle, Style} from 'ol/style';
-
 import {state} from './main.js';
 import {
   degToDms,
@@ -84,10 +81,6 @@ export function parseDirection(string) {
   }
 };
 
-// export function getRootFontSize() {
-//   return Number(getComputedStyle(document.body).getPropertyValue('font-size').slice(0, -2));
-// };
-
 export function setAccentColor(value) {
   document.documentElement.style.setProperty('--color2', value);
 };
@@ -104,40 +97,3 @@ export function setTextColor(value) {
   document.documentElement.style.setProperty('--text-color', value);
   document.documentElement.style.setProperty('--light-text-color', value.slice(0, 7) + '77');
 };
-
-// export function styleLineSegment(feature) {
-//   const geometry = feature.getGeometry();
-//   const styles = [
-//     new Style({
-//       stroke: new Stroke({
-//         color: [255, 255, 255, 1],
-//         width: 5
-//       })
-//     }),
-//     new Style({
-//       stroke: new Stroke({
-//         color: [0, 153, 255, 1],
-//         width: 3
-//       })
-//     })
-//   ];
-//   for (let fn of ['getFirstCoordinate', 'getLastCoordinate']) {
-//     styles.push(
-//       new Style({
-//         geometry: new Point(geometry[fn]()),
-//         image: new Circle({
-//           radius: 6,
-//           fill: new Fill({
-//             color: [0, 153, 255, 1]
-//           }),
-//           stroke: new Stroke({
-//             color: [255, 255, 255, 1],
-//             width: 1.5
-//           })
-//         }),
-//         zIndex: Infinity
-//       })
-//     );
-//   }
-//   return styles;
-// };

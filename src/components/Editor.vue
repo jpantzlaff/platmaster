@@ -166,7 +166,6 @@ export default {
         if (basis === 'Magnetic north') {
           try {
             state.localCrs.offset = await getMagDecl([lon, lat], state.form.bearingBasisDate);
-            console.log(state.localCrs.offset);
           } catch(error) {
             console.error(error);
           }
@@ -174,7 +173,6 @@ export default {
           try {
             const [x, y] = proj4(state.form.crs.value.proj4, [lon, lat]);
             state.localCrs.offset = gridConvergence(state.form.crs.value, x, y);
-            console.log(state.localCrs.offset);
           } catch(error) {
             console.error(error);
           }
