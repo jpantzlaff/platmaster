@@ -25,7 +25,7 @@
       </div>
       <UiCheckbox
         v-model="darkEditor"
-        label="Invert color of documents in editor"
+        label="Invert color of pages in viewer"
       />
     </div>
     <div class="settings-section">
